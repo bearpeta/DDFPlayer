@@ -62,3 +62,8 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# VSCode
+*.code-workspace
+.vscode
+jsconfig.json
