@@ -20,6 +20,7 @@
 		8EF2764E86F0B1AECA29524D /* libPods-DDFPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1C736688788158A3266C6AA /* libPods-DDFPlayer.a */; };
 		A5C3A074E0B1A8D91D2A3D67 /* libPods-DDFPlayer-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB47A2B35A6D71F619F1AAE6 /* libPods-DDFPlayer-tvOS.a */; };
 		C10538E08E753F3C79EE0E08 /* libPods-DDFPlayer-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ECFE6A2669A1D4279500E896 /* libPods-DDFPlayer-tvOSTests.a */; };
+		D2AD7E6424416F3F0084DA32 /* dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AD7E6324416F3F0084DA32 /* dummy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,8 @@
 		A27BF29197802C7BAE3A7C57 /* Pods-DDFPlayer-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDFPlayer-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-DDFPlayer-tvOSTests/Pods-DDFPlayer-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CF7F25E9387DCD530ACF9CE8 /* Pods-DDFPlayer-DDFPlayerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDFPlayer-DDFPlayerTests.debug.xcconfig"; path = "Target Support Files/Pods-DDFPlayer-DDFPlayerTests/Pods-DDFPlayer-DDFPlayerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D1658A67AC73A38997A6E60B /* Pods-DDFPlayer-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDFPlayer-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-DDFPlayer-tvOS/Pods-DDFPlayer-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		D2AD7E6224416F3E0084DA32 /* DDFPlayer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DDFPlayer-Bridging-Header.h"; sourceTree = "<group>"; };
+		D2AD7E6324416F3F0084DA32 /* dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dummy.swift; sourceTree = "<group>"; };
 		DB47A2B35A6D71F619F1AAE6 /* libPods-DDFPlayer-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDFPlayer-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E75953EE32B353200617A92E /* Pods-DDFPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDFPlayer.release.xcconfig"; path = "Target Support Files/Pods-DDFPlayer/Pods-DDFPlayer.release.xcconfig"; sourceTree = "<group>"; };
 		ECFE6A2669A1D4279500E896 /* libPods-DDFPlayer-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DDFPlayer-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,12 +162,14 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				D2AD7E6324416F3F0084DA32 /* dummy.swift */,
 				13B07FAE1A68108700A75B9A /* DDFPlayer */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* DDFPlayerTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D1E5058FB007B49339E4EBB0 /* Pods */,
+				D2AD7E6224416F3E0084DA32 /* DDFPlayer-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -194,7 +199,6 @@
 				A27BF29197802C7BAE3A7C57 /* Pods-DDFPlayer-tvOSTests.debug.xcconfig */,
 				3604D8F8C315DABD2DD2AC9A /* Pods-DDFPlayer-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -292,7 +296,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1130;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -531,6 +535,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				D2AD7E6424416F3F0084DA32 /* dummy.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -584,6 +589,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CF7F25E9387DCD530ACF9CE8 /* Pods-DDFPlayer-DDFPlayerTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -607,6 +613,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 79CDF384D022A4CB04BA46DF /* Pods-DDFPlayer-DDFPlayerTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = DDFPlayerTests/Info.plist;
@@ -636,6 +643,7 @@
 					"FB_SONARKIT_ENABLED=1",
 				);
 				INFOPLIST_FILE = DDFPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -644,8 +652,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = DDFPlayer;
+				SWIFT_OBJC_BRIDGING_HEADER = "DDFPlayer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -658,6 +667,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = DDFPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -666,7 +676,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = DDFPlayer;
-				SWIFT_VERSION = 5.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "DDFPlayer-Bridging-Header.h";
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
