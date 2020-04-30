@@ -22,7 +22,6 @@ import {
   onFastForward,
   onFastRewind,
 } from './actions';
-import colors from 'res/colors';
 
 const amountBtn = 7;
 
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
     height: '100%',
     //borderWidth: 2,
     //borderColor: 'yellow',
-    backgroundColor: colors.primaryLight,
+    //backgroundColor: colors.primary,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
