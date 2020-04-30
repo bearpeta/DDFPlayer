@@ -1,29 +1,40 @@
-import React, {
-  useState,
-  useCallback,
-  useRef,
-  useEffect,
-  useLayoutEffect,
-} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Animated, View, Text, StyleSheet, SafeAreaView} from 'react-native';
 import {ANIMATED, animatedStartPosition} from './constants';
 import {panResponder} from './panResponder';
-import animateMove from 'lib/player/animateMove';
-import PlayerControl from 'lib/player/playerControl/PlayerControl';
+import animateMove from './animateMove';
+import PlayerControl from './playerControl/PlayerControl';
+import {usePlayerEvents} from 'lib/trackplaymanager/TrackPlayManager';
+import {EVENTS} from 'lib/trackplaymanager/events';
+import {STATES} from 'lib/trackplaymanager/states';
+import PlayerProgress from 'lib/player/playerProgress/PlayerProgress';
+import colors from 'res/colors';
 
-const PlayerModal = ({isOpen, onClosed}) => {
+const PlayerModal = ({isOpen}) => {
+  const [isVisible, setVisibility] = useState(isOpen);
+
   useEffect(() => {
     console.log(
-      'USE_EFFECT: VISIBILITY CHANGES FROM ' + !isOpen + ' TO ' + isOpen,
+      'USE_EFFECT: VISIBILITY CHANGES FROM ' + !isVisible + ' TO ' + isVisible,
     );
     console.log(animatedStartPosition);
-    if (isOpen) {
+    if (isVisible) {
       animateMove(1);
       return;
     }
 
     animateMove(0);
-  }, [isOpen]);
+  }, [isVisible]);
+
+  usePlayerEvents([EVENTS.CHANGE_PLAYBACK_STATE], event => {
+    //console.log(`PLAYERMODAL: TRACKPLAYER EVENT FIRED!!!! => ${event.type}`);
+
+    if (event.type === EVENTS.CHANGE_PLAYBACK_STATE) {
+      setVisibility(
+        event.state !== STATES.NONE && event.state !== STATES.STOPPED,
+      );
+    }
+  });
 
   const interpolation = animatedStartPosition.interpolate({
     inputRange: [0, 1, 2],
@@ -35,7 +46,12 @@ const PlayerModal = ({isOpen, onClosed}) => {
       style={[styles.container, {transform: [{translateY: interpolation}]}]}>
       <View style={styles.subContainer}>
         <View style={styles.gestureArea} {...panResponder.panHandlers}>
-          <PlayerControl />
+          <View style={styles.progressBarContainer}>
+            <PlayerProgress />
+          </View>
+          <View style={styles.playControlContainer}>
+            <PlayerControl />
+          </View>
         </View>
         <SafeAreaView style={styles.contentContainer}>
           <View style={styles.content}>
@@ -55,12 +71,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '50%',
 
+    backgroundColor: colors.primaryLight,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    borderWidth: 1,
-    borderColor: 'red',
-
-    backgroundColor: 'orange',
 
     shadowColor: 'black',
     shadowOffset: {
@@ -76,6 +89,18 @@ const styles = StyleSheet.create({
   gestureArea: {
     width: '100%',
     height: '30%',
+  },
+  progressBarContainer: {
+    width: '100%',
+    height: '40%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  playControlContainer: {
+    width: '100%',
+    height: '60%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   contentContainer: {
     paddingHorizontal: 10,

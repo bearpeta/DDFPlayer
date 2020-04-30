@@ -1,10 +1,12 @@
 import TrackPlayer from 'react-native-track-player';
-import {useTrackPlayerEvents} from 'react-native-track-player/lib/hooks';
+import {
+  useTrackPlayerEvents,
+  useTrackPlayerProgress,
+} from 'react-native-track-player/lib/hooks';
 import {convertForTrackPlayer} from 'lib/audiobooks/convert';
 import {EVENTS} from './events';
-import {STATES} from './states';
-import Play from 'res/images/player/play.svg';
-import images from 'res/image';
+
+const jumpInterval = 300; //this interval in seconds defines the jump when fast forwarded/rewind
 
 // The reason to build these wrapping layers around the ThirdParty-library TrackPlayer is to have an easy way to exchange the TrackPlayer library if needed since changes would just have to happen in this file.
 
@@ -15,7 +17,7 @@ const _setup = () => {
     backBuffer: 60,
   }).then(() => {
     TrackPlayer.updateOptions({
-      jumpInterval: 300, // 5min
+      jumpInterval,
       alwaysPauseOnInterruption: true,
       capabilities: [
         TrackPlayer.CAPABILITY_PLAY,
@@ -59,7 +61,7 @@ const _skipToNext = async () => {
 };
 
 const _skipToPrevious = async () => {
-  await TrackPlayer.skipToPrevious();
+  await TrackPlayer.skipToPrevious().catch(e => console.log(e));
 };
 
 const _forward = async seconds => {
@@ -72,9 +74,15 @@ const _goBack = async seconds => {
   await TrackPlayer.seekTo(position - seconds);
 };
 
-const _fastForward = () => {};
+const _fastForward = async () => {
+  const position = await TrackPlayer.getPosition();
+  await TrackPlayer.seekTo(position + jumpInterval);
+};
 
-const _fastRewind = () => {};
+const _fastRewind = async () => {
+  const position = await TrackPlayer.getPosition();
+  await TrackPlayer.seekTo(position - jumpInterval);
+};
 
 const _playNew = async audiobook => {
   try {
@@ -96,6 +104,10 @@ const usePlayerEvents = (events, listener) => {
   useTrackPlayerEvents(events, listener);
 };
 
+const usePlayerProgress = (intervalInSec = 1000) => {
+  return useTrackPlayerProgress(intervalInSec);
+};
+
 const TrackPlayManager = {
   setup: _setup,
   stop: _stop,
@@ -112,4 +124,4 @@ const TrackPlayManager = {
 };
 
 export default TrackPlayManager;
-export {usePlayerEvents};
+export {usePlayerEvents, usePlayerProgress};

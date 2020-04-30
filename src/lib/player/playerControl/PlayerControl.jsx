@@ -22,12 +22,13 @@ import {
   onFastForward,
   onFastRewind,
 } from './actions';
+import colors from 'res/colors';
 
-const amountBtns = 7;
+const amountBtn = 7;
 
 const deviceWidth = Dimensions.get('window').width;
 const paddingButtonRow = 10;
-const buttonWide = (deviceWidth - 2 * paddingButtonRow) / amountBtns;
+const buttonWide = (deviceWidth - 2 * paddingButtonRow) / amountBtn;
 
 const PlayerControl = ({style}) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -40,10 +41,11 @@ const PlayerControl = ({style}) => {
       EVENTS.PLAYBACK_ERROR,
     ],
     event => {
+      /*
       console.log(
         `PLAYERCONTROL: TRACKPLAYER EVENT FIRED!!!! => ${event.type}`,
       );
-
+*/
       if (event.type === EVENTS.PLAYBACK_ERROR) {
         console.log(`PLAYBACK ERROR: ${event.code}: ${event.message}`);
       }
@@ -60,34 +62,31 @@ const PlayerControl = ({style}) => {
   );
   return (
     <View style={[styles.container, style]}>
-      <View style={styles.buttonContainer}>
-        <ControlButton
-          onPress={onSkipPrevious}
-          image={<SkipPrevious width={buttonWide} height={buttonWide} />}
-        />
-        <ControlButton
-          onPress={onFastRewind}
-          image={<FastRewind width={buttonWide} height={buttonWide} />}
-        />
-        <ControlButton
-          onPress={onReplayTenSecond}
-          image={<Replay10Sec width={buttonWide} height={buttonWide} />}
-        />
-
-        {getPlayPauseView(isPlaying)}
-        <ControlButton
-          onPress={onForwardTenSec}
-          image={<Forward10Sec width={buttonWide} height={buttonWide} />}
-        />
-        <ControlButton
-          onPress={onFastForward}
-          image={<FastForward width={buttonWide} height={buttonWide} />}
-        />
-        <ControlButton
-          onPress={onSkipNext}
-          image={<SkipNext width={buttonWide} height={buttonWide} />}
-        />
-      </View>
+      <ControlButton
+        onPress={onSkipPrevious}
+        image={<SkipPrevious width={buttonWide} height={buttonWide} />}
+      />
+      <ControlButton
+        onPress={onFastRewind}
+        image={<FastRewind width={buttonWide} height={buttonWide} />}
+      />
+      <ControlButton
+        onPress={onReplayTenSecond}
+        image={<Replay10Sec width={buttonWide} height={buttonWide} />}
+      />
+      {getPlayPauseView(isPlaying)}
+      <ControlButton
+        onPress={onForwardTenSec}
+        image={<Forward10Sec width={buttonWide} height={buttonWide} />}
+      />
+      <ControlButton
+        onPress={onFastForward}
+        image={<FastForward width={buttonWide} height={buttonWide} />}
+      />
+      <ControlButton
+        onPress={onSkipNext}
+        image={<SkipNext width={buttonWide} height={buttonWide} />}
+      />
     </View>
   );
 };
@@ -114,15 +113,9 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    borderWidth: 2,
-    borderColor: 'yellow',
-    backgroundColor: '#3d3d42',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  buttonContainer: {
-    width: '100%',
-    height: '80%',
+    //borderWidth: 2,
+    //borderColor: 'yellow',
+    backgroundColor: colors.primaryLight,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
