@@ -40,8 +40,6 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingLeft: 5,
     paddingRight: 5,
-    borderWidth: 2,
-    borderColor: 'green',
   },
 });
 

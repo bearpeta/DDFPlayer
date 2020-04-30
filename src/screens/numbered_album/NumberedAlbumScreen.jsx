@@ -5,6 +5,7 @@ import PlayerModal from 'lib/player/PlayerModal';
 import AlbumList from 'lib/view/AlbumList';
 import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import {EVENTS} from 'lib/trackplaymanager/events';
+import colors from 'res/colors';
 
 export default class NumberedAlbumScreen extends React.Component {
   state = {
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
   root: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#262629',
+    backgroundColor: colors.primary,
     //alignItems: 'center',
     // justifyContent: 'flex-end',
   },
