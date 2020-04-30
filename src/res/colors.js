@@ -1,6 +1,10 @@
 const colors = {
-  primary: '#262629',
-  primaryLight: '#3d3d42',
+  primary: '#494950',
+  primaryLight: '#62626a',
+  primaryLightest: '#bdbdc2',
+  blue: '#2e90f2',
+  red: '#c01900',
+  white: '#ffffff',
 };
 
 export default colors;

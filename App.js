@@ -11,6 +11,7 @@ import AudiobookProvider from 'lib/audiobooks/provider';
 import NumberedAlbumScreen from './src/screens/numbered_album/NumberedAlbumScreen';
 import SpecialAlbumScreen from './src/screens/special_album/SpecialAlbumScreen';
 import SettingScreen from './src/screens/setting/SettingScreen';
+import colors from 'res/colors';
 
 const appPermissions = [PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE];
 
@@ -20,7 +21,21 @@ const Tab = createMaterialTopTabNavigator();
 
 function MyTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: colors.red,
+        pressColor: colors.primaryLight,
+        inactiveTintColor: colors.primaryLightest,
+        labelStyle: {
+          //fontSize: 11,
+        },
+        indicatorStyle: {
+          backgroundColor: colors.blue,
+        },
+        style: {
+          backgroundColor: colors.primary,
+        },
+      }}>
       <Tab.Screen name="Nummerierte Alben" component={NumberedAlbumScreen} />
       <Tab.Screen name="Special Alben" component={SpecialAlbumScreen} />
     </Tab.Navigator>
