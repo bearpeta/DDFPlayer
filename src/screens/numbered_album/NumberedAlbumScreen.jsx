@@ -22,7 +22,6 @@ export default class NumberedAlbumScreen extends React.Component {
 
     TrackPlayManager.setup();
     TrackPlayManager.addEventListener(EVENTS.PLAY, event => {
-      console.log('DSDASDASDSAD');
       console.log(event);
     });
   }
@@ -46,12 +45,7 @@ export default class NumberedAlbumScreen extends React.Component {
 
   render() {
     return (
-      <View
-        style={styles.root}
-        onLayout={event => {
-          console.log('SCREEN:  ONLAYOUT!!!!');
-          console.log(event.nativeEvent);
-        }}>
+      <View style={styles.root}>
         <AlbumList
           list={this.state.audiobookList}
           keyExtractor={item => item.audiobookNumber()}
@@ -76,7 +70,7 @@ const styles = StyleSheet.create({
   root: {
     width: '100%',
     height: '100%',
-    backgroundColor: colors.primary,
+    backgroundColor: colors.primaryLight,
     //alignItems: 'center',
     // justifyContent: 'flex-end',
   },
