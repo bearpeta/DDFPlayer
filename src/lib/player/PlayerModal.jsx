@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
 
     left: 0,
     width: '100%',
-    height: '50%',
+    height: '60%',
 
     backgroundColor: colors.primary,
     borderTopLeftRadius: 10,
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   subContainer: {position: 'relative', width: '100%', height: '100%'},
   gestureArea: {
     width: '100%',
-    height: '30%',
+    height: '25%',
   },
   progressBarContainer: {
     width: '100%',
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderWidth: 2,
     borderColor: 'green',
-    height: '70%',
+    height: '58%',
     backgroundColor: 'yellow',
   },
   content: {

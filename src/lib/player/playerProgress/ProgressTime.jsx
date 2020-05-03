@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import beautifyTime from './beautifyTime';
+import colors from 'res/colors';
 
 const ProgressTime = ({currentSecond, duration, style = {}}) => {
   return (
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   infoText: {
-    color: 'white',
+    color: colors.primaryLightest,
     fontSize: 12,
   },
   durationInfo: {},

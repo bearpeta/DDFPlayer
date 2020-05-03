@@ -11,15 +11,11 @@ const isSwipeUp = (startPoint, endPoint) => {
 };
 
 const onMoveShouldSetPanResponder = (_, gestureState) => {
+  console.warn('PLAYERMODAL: onMoveShouldSetPanResponder');
+  console.log(gestureState);
+
   return gestureState.dy >= 10 || gestureState.dy <= -10;
 };
-
-function onPanResponderMove(_, gestureState) {
-  const toValue = Math.min(0, movementValue(gestureState));
-  console.log(`gestureState: moveY: ${gestureState.moveY}`);
-
-  //animateMove(toValue);
-}
 
 function onPanResponderRelease(_, gestureState) {
   const movement = movementValue(gestureState);
@@ -59,7 +55,11 @@ const panResponder = PanResponder.create({
   //onPanResponderMove,
   onPanResponderRelease,
   onMoveShouldSetPanResponder,
-  onStartShouldSetPanResponderCapture: onMoveShouldSetPanResponder,
+  onStartShouldSetPanResponderCapture: () => false,
+  onStartShouldSetPanResponder: () => {
+    console.warn('PLAYERMODAL: onStartShouldSetPanResponder');
+    return false;
+  },
 });
 
 export {panResponder};

@@ -4,8 +4,14 @@ const getTouchPanResponder = ({onGrant, onMove, onRelease, onTerminate}) => {
   // The PanRespond
   return PanResponder.create({
     onPanResponderTerminationRequest: (evt, gestureState) => false,
-    onStartShouldSetPanResponder: (evt, _gestureState) => true,
-    onMoveShouldSetPanResponder: (_evt, _gestureState) => true,
+    onStartShouldSetPanResponder: (evt, _gestureState) => {
+      console.warn('PLAYERPROGESS: onStartShouldSetPanResponder');
+      return true;
+    },
+    onMoveShouldSetPanResponder: (_evt, _gestureState) => {
+      console.warn('PLAYERPROGESS: onMoveShouldSetPanResponder');
+      return true;
+    },
     //onMoveShouldSetPanResponderCapture: (_evt, _gestureState) => false,
     onPanResponderGrant: (evt, _gestureState) => {
       const releasedPosition = evt.nativeEvent.locationX;
@@ -17,6 +23,8 @@ const getTouchPanResponder = ({onGrant, onMove, onRelease, onTerminate}) => {
       onGrant(releasedPosition);
     },
     onPanResponderMove: (evt, _gestureState) => {
+      console.warn('PLAYERPROGESS: onMoveShouldSetPanResponder: ON MOVE');
+
       // We have to use the moveX variable here because the locationX variable gave false results back while moving.
       const releasedPosition = _gestureState.moveX;
       //console.log(`getTouchPanResponder: ONMOVE: ${releasedPosition}`);
@@ -26,6 +34,7 @@ const getTouchPanResponder = ({onGrant, onMove, onRelease, onTerminate}) => {
       onRelease();
     },
     onPanResponderTerminate: () => {
+      console.log('ONTERMINATE');
       onTerminate();
     },
   });

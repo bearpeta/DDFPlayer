@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useCallback} from 'react';
-import {Animated, View, StyleSheet} from 'react-native';
+import {Animated, Text, View, StyleSheet} from 'react-native';
 import colors from 'res/colors';
+import {elevationStyle} from 'res/styles';
 
 const ProgressBar = ({onLayout, progress, inInteraction}) => {
   const animatedValue = useRef(new Animated.Value(1)).current;
@@ -28,8 +29,9 @@ const ProgressBar = ({onLayout, progress, inInteraction}) => {
           width: progress,
         }}>
         <Animated.View
-          style={[styles.currentPosBtn, {transform: [{scale: animatedValue}]}]}
-        />
+          style={[styles.currentPosBtn, {transform: [{scale: animatedValue}]}]}>
+          <Text style={styles.buttonText}>???</Text>
+        </Animated.View>
       </View>
     </View>
   );
@@ -41,8 +43,9 @@ const styles = StyleSheet.create({
     height: 2,
     justifyContent: 'center',
     alignContent: 'center',
-    borderColor: colors.white,
+    borderColor: colors.primaryLightest,
     borderWidth: 1,
+    ...elevationStyle,
   },
   progressLine: {
     width: 0,
@@ -57,10 +60,14 @@ const styles = StyleSheet.create({
   currentPosBtn: {
     width: 20,
     height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: colors.red,
     borderRadius: 20 / 2,
     //alignSelf: 'flex-end',
     marginRight: -5,
+    ...elevationStyle,
   },
+  buttonText: {color: colors.white, fontWeight: 'bold', fontSize: 10},
 });
 export default ProgressBar;
