@@ -13,7 +13,10 @@ import SpecialAlbumScreen from './src/screens/special_album/SpecialAlbumScreen';
 import SettingScreen from './src/screens/setting/SettingScreen';
 import colors from 'res/colors';
 
-const appPermissions = [PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE];
+const appPermissions = [
+  PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+  PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
+];
 
 const Stack = createStackNavigator();
 
@@ -23,14 +26,14 @@ function MyTabs() {
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: colors.red,
+        activeTintColor: colors.blue,
         pressColor: colors.primaryLight,
         inactiveTintColor: colors.primaryLightest,
         labelStyle: {
           //fontSize: 11,
         },
         indicatorStyle: {
-          backgroundColor: colors.blue,
+          backgroundColor: colors.red,
         },
         style: {
           backgroundColor: colors.primary,
