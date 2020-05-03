@@ -1,5 +1,5 @@
 import {ExternalStorageDirectoryPath} from 'react-native-fs';
-import {createFromFilePath} from './audiobook';
+import create from './create';
 import indexing from 'lib/index/indexing';
 
 const AUDIOFILE_ROOT_PATH = `${ExternalStorageDirectoryPath}/Music/DDF/`;
@@ -51,14 +51,14 @@ const _mergeFileLists = async newFiles => {
 };
 
 const _setup = async () => {
-  const newFiles = await indexing(AUDIOFILE_ROOT_PATH, createFromFilePath);
+  const newFiles = await indexing(AUDIOFILE_ROOT_PATH, create);
   //console.log(`PROVIDER SETUP/REFRESH: ${newFiles}`);
   await _mergeFileLists(newFiles);
   return AudiobookProvider;
 };
 
 const _getAudiobooks = async type => {
-  const idxPromise = indexing(AUDIOFILE_ROOT_PATH, createFromFilePath);
+  const idxPromise = indexing(AUDIOFILE_ROOT_PATH, create);
   if (Object.keys(fileList[type]).length > 0) {
     //console.log('GET: HAS ALREADY FILES!');
     idxPromise.then(list => {

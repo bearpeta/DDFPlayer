@@ -7,16 +7,16 @@ const indexing = async (path, buildObjFnc) => {
   } catch (e) {
     return new Promise.reject(e);
   }
-  const list = [];
-  readResult.forEach(dirItem => {
-    if (dirItem.isDirectory()) {
-      // TODO: Right now we don't expect folders in here. Changes when Special books are added
-      return;
-    }
-    list.push(buildObjFnc(dirItem.path));
-  });
 
-  return list;
+  const results = await Promise.all(
+    readResult
+      .filter(dirItem => !dirItem.isDirectory())
+      .map(dirItem => {
+        return buildObjFnc(dirItem.path);
+      }),
+  );
+
+  return results;
 };
 
 export default indexing;

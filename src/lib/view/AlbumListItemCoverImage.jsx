@@ -9,7 +9,11 @@ const AlbumListItemCoverImage = ({source}) => {
     imgSrc = images.defaultAlbumCover;
   }
   return (
-    <Image style={styles.albumCoverImage} source={imgSrc} resizeMode="center" />
+    <Image
+      style={styles.albumCoverImage}
+      source={{uri: imgSrc}}
+      resizeMode="stretch"
+    />
   );
 };
 

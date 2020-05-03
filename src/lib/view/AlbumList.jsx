@@ -18,7 +18,7 @@ const AlbumList = ({list, keyExtractor, onItemPress, itemTitleFnc}) => {
       columnWrapperStyle={styles.columnWrapperContainer}
       renderItem={({item, index}) => (
         <AlbumListItem
-          imgSource={''}
+          imgSource={item.image()}
           listIndex={index}
           title={itemTitleFnc(item)}
           onPress={() => onItemPress(item)}
