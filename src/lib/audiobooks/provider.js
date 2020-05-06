@@ -18,7 +18,7 @@ const _mergeFileLists = async newFiles => {
     Object.keys(fileList[SPECIAL]).length !== 0;
 
   newFiles.forEach(file => {
-    const isNumbered = file.hasOwnProperty('_number');
+    const isNumbered = file.isNumbered();
 
     // Is the case when the app gets started and the files aren't loaded yet for the first time
     if (!isSetupAlready) {

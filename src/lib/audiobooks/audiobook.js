@@ -1,19 +1,22 @@
 class Audiobook {
   _filePath = '';
-  _title = '';
+  _title = ''; // example: 004 - Die Drei ??? - Die Schwarze Katze
   _author = 'Die Drei Fragezeichen';
-  _album = '';
+  _album = ''; // Die Schwarze Katze
   _track = 1;
   _base64Image = '';
 
-  constructor(filePath, title, album) {
+  constructor(filePath, album, title) {
     this._filePath = filePath;
     this._title = title;
     this._album = album;
   }
 
   setImage(base64Image) {
-    this._base64Image = `data:image/jpeg;base64,${base64Image}`;
+    if (!base64Image.startsWith('data:image')) {
+      base64Image = `data:image/jpeg;base64,${base64Image}`;
+    }
+    this._base64Image = base64Image;
   }
 
   image() {
@@ -43,13 +46,17 @@ class Audiobook {
   trackNumber() {
     return this._track;
   }
+
+  isNumbered() {
+    return this.hasOwnProperty('_number');
+  }
 }
 
 class NumberedAudiobook extends Audiobook {
   _number;
 
-  constructor(filePath, title, album, number) {
-    super(filePath, title, album);
+  constructor(filePath, album, title, number) {
+    super(filePath, album, title);
     this._number = number;
   }
 

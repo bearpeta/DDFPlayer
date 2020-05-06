@@ -1,3 +1,5 @@
+import {initiate} from 'lib/audiobooks/create';
+
 const convertForTrackPlayer = audiobook => {
   // resolving path from file uri has problems if special chars like '?' aren't encoded properly
   const filePath = audiobook.filePath().replace('???', '%3F%3F%3F');
@@ -15,4 +17,8 @@ const convertForTrackPlayer = audiobook => {
   };
 };
 
-export {convertForTrackPlayer};
+const convertFromTrackPlayer = track => {
+  return initiate(track.url, track.album, track.title);
+};
+
+export {convertForTrackPlayer, convertFromTrackPlayer};

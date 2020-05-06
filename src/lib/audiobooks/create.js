@@ -17,43 +17,33 @@ const _createFromFilePath = filePath => {
     console.log(`FILENAME WRONG FORMATTED: ${parts}`);
   }
   var album = parts[parts.length - 1];
-
-  const number = getAlbumNumber(album);
-  if (number !== '') {
-    return new NumberedAudiobook(filePath, album, title, number);
-  }
-  return new SpecialAudiobook(filePath, album, title);
+  return initiate(filePath, album, title);
 };
 
-const getAlbumNumber = albumTitle => {
-  const parts = albumTitle.split(' - ');
-  return !isNaN(parts[0]) ? parseInt(parts[0], 10) : '';
+const initiate = (filePath, album, title) => {
+  const parts = title.split(' - ');
+  if (!isNaN(parts[0])) {
+    return new NumberedAudiobook(
+      filePath,
+      album,
+      title,
+      parseInt(parts[0], 10),
+    );
+  }
+  return new SpecialAudiobook(filePath, album, title);
 };
 
 const create = async filePath => {
   let meta;
   try {
     meta = await MediaMeta.get(filePath);
-
-    let albumObj = null;
-
-    const number = getAlbumNumber(meta.title);
-    if (number === '') {
-      albumObj = new SpecialAudiobook(filePath, meta.album, meta.title);
-    } else {
-      albumObj = new NumberedAudiobook(
-        filePath,
-        meta.album,
-        meta.title,
-        number,
-      );
-    }
+    const album = initiate(filePath, meta.album, meta.title);
 
     if (meta.thumb) {
-      albumObj.setImage(meta.thumb);
+      album.setImage(meta.thumb);
     }
 
-    return albumObj;
+    return album;
   } catch (e) {
     console.error(e);
     return _createFromFilePath(filePath);
@@ -61,3 +51,4 @@ const create = async filePath => {
 };
 
 export default create;
+export {initiate};
