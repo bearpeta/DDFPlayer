@@ -2,8 +2,8 @@ import {PanResponder} from 'react-native';
 import {ANIMATED, HEIGHTS} from './constants';
 import animateMove from './animateMove';
 
-const movementValue = gestureState => {
-  return HEIGHTS.PARENTVIEW - gestureState.moveY;
+const movementValue = (gestureState) => {
+  return HEIGHTS.PARENT_VIEW - gestureState.moveY;
 };
 
 const isSwipeUp = (startPoint, endPoint) => {
