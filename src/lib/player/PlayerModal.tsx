@@ -45,15 +45,12 @@ const PlayerModal = ({isOpen, displayTitle, file}: modalProps) => {
     [EVENTS.CHANGE_PLAYBACK_STATE, EVENTS.TRACK_CHANGED],
     (event: any) => {
       if (event.type === EVENTS.TRACK_CHANGED) {
-        console.log(event);
         if (event.nextTrack === null) return;
         setPlayingFileFromTrackPlayer(event.nextTrack);
         return;
       }
 
       if (event.type === EVENTS.CHANGE_PLAYBACK_STATE) {
-        //if (event.state === STATES.NONE) console.log('NONE: ');
-        //if (event.state === STATES.STOPPED) console.log('STOP: ');
         setVisibility(
           event.state !== STATES.NONE && event.state !== STATES.STOPPED,
         );

@@ -21,7 +21,10 @@ const useAlbumPlayer = (listType: listTypes): returnType => {
     undefined,
   );
 
-  useEventListeners(setIsPlayerOpen);
+  useEventListeners({
+    keepPlayerOpen: setIsPlayerOpen,
+    trackChange: setPlayingFile,
+  });
   useAudiobookProvider(listType, setAudiobookList);
   useLastPlayedFile(audiobookList, setIsPlayerOpen, setPlayingFile);
 

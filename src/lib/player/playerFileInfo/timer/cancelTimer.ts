@@ -1,11 +1,8 @@
 import BackgroundTimer from 'react-native-background-timer';
 import PushNotification from 'react-native-push-notification';
 import InfoStorage from './notification/InfoStorage';
-import {defaultNotificationId} from './notification/defaultNotification';
 
-const cancelTimer = async (completely = false) => {
-  console.log('cancelTimer: ' + completely);
-
+const cancelTimer = async (completely: boolean = false) => {
   const infos: [string, string | null][] = await InfoStorage.getMultiple([
     'background_interval_id',
     'background_timeout_id',
@@ -25,7 +22,7 @@ const cancelTimer = async (completely = false) => {
   InfoStorage.remove('background_interval_id');
 
   if (completely) {
-    PushNotification.cancelLocalNotifications({id: defaultNotificationId});
+    PushNotification.cancelAllLocalNotifications();
   }
 };
 

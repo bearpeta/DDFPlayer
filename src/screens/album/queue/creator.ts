@@ -41,8 +41,6 @@ const creator = (options: createOptions): AudioFile[] => {
     (i) => i + firstIndex,
   );
 
-  // TODO : CHECK IF INDEX IS BIGGER THAN FILES.LENGTH. IF SO CONTINUE FROM THE BEGINNING
-
   for (let idx of addingIndexes) {
     if (idx >= files.length) {
       // if we reached the end of the list and the 'variant' is 'in_order' we stop adding more files.
@@ -53,17 +51,6 @@ const creator = (options: createOptions): AudioFile[] => {
     }
     queue.push(files[idx]);
   }
-  /*
-  addingIndexes.forEach((idx) => {
-    if (idx >= files.length) {
-      idx = idx - files.length;
-    }
-    if (!files[idx]) {
-      console.log('WTF');
-      return;
-    }
-    queue.push(files[idx]);
-  }); */
   return queue;
 };
 
@@ -78,7 +65,7 @@ const _addRandom = (
 
   while (queue.length < size) {
     const audioFile = audiobookList[_getRandomNumber(audiobookList.length) - 1];
-    if (!alreadyInQueue(audioFile.id())) {
+    if (alreadyInQueue(audioFile.id())) {
       continue;
     }
 

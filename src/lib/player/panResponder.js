@@ -33,11 +33,6 @@ function onPanResponderRelease(_, gestureState) {
     }
     return;
   }
-  /*
-  console.log('DOWN');
-  console.log(gestureState.y0);
-  console.log(ANIMATED.VISIBLE);
-  console.log(gestureState.y0 < ANIMATED.VISIBLE); */
 
   // If the y-start point is smaller than animated visible point then that means the modal is in full mode
   if (gestureState.y0 < ANIMATED.VISIBLE) {
@@ -57,7 +52,6 @@ const panResponder = PanResponder.create({
   onMoveShouldSetPanResponder,
   onStartShouldSetPanResponderCapture: () => false,
   onStartShouldSetPanResponder: () => {
-    console.warn('PLAYERMODAL: onStartShouldSetPanResponder');
     return false;
   },
 });

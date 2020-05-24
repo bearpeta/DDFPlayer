@@ -5,10 +5,11 @@ import React, {
   useCallback,
 } from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
+import {Picker} from '@react-native-community/picker';
 import RootView from 'lib/view/RootView';
 import DDFText from 'lib/view/DDFText';
 import Setting, {defaultSettings} from 'lib/setting/Setting';
-import {queuePickingType, SettingOptionKeys} from 'lib/setting/types';
+import {SettingOptionKeys} from 'lib/setting/types';
 import colors from 'res/colors';
 
 type SettingProps = {};
@@ -94,14 +95,23 @@ const SettingScreen: FunctionComponent<SettingProps> = (): JSX.Element => {
       <View style={styles.settingContainer}>
         <DDFText
           style={styles.settingLabel}>{`Queue creation variation:`}</DDFText>
-        <TextInput
-          style={styles.settingInput}
-          onChangeText={(text) => setQueuePicking(text as queuePickingType)}
-          value={queuePicking}
-          onEndEditing={(e) => {
-            _saveSetting('queuePicking', e.nativeEvent.text);
-          }}
-        />
+
+        <Picker
+          mode="dialog"
+          prompt="Choose how the queue should be created for numbered albums:"
+          selectedValue={queuePicking}
+          style={styles.settingDropdown}
+          onValueChange={(itemValue, _itemIndex) => {
+            setQueuePicking(itemValue as string);
+            _saveSetting('queuePicking', itemValue as string);
+          }}>
+          <Picker.Item
+            label="In order (stops at the end of last album)"
+            value="in_order"
+          />
+          <Picker.Item label="In order (start over)" value="in_order_repeat" />
+          <Picker.Item label="Random" value={'random'} />
+        </Picker>
       </View>
       <View style={styles.settingContainer}>
         <DDFText style={styles.settingLabel}>{`Queue size:`}</DDFText>
@@ -140,10 +150,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingVertical: 10,
     borderWidth: 1,
-    borderColor: 'yellow',
+    borderColor: colors.white,
+    borderRadius: 15,
+    marginBottom: 15,
   },
   settingLabel: {
-    marginRight: 15,
+    marginBottom: 15,
     fontWeight: 'bold',
   },
   settingInput: {
@@ -157,6 +169,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     textAlign: 'center',
     elevation: 5,
+  },
+  settingDropdown: {
+    minWidth: 250,
+    height: 50,
+
+    color: colors.primaryDark,
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    //paddingHorizontal: 10,
+    textAlign: 'center',
+    //elevation: 5,
   },
 });
 

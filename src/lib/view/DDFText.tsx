@@ -37,12 +37,12 @@ const DDFText = ({
 const styles = StyleSheet.create({
   text: {
     color: colors.white,
-    //fontFamily: 'Lato-Regular',
+    //fontFamily: 'lato_Regular',
   },
 });
 
 const _getFontFamily = (style: TextStyle): fontFamilyStyle => {
-  const defaultFamily = {fontFamily: 'Lato-Regular'};
+  const defaultFamily = {fontFamily: 'lato_regular'};
   if (style === undefined) defaultFamily;
   if (style.fontWeight === undefined) {
     return _useItalicVersion(defaultFamily, style.fontStyle as string);
@@ -51,24 +51,24 @@ const _getFontFamily = (style: TextStyle): fontFamilyStyle => {
   switch (style.fontWeight) {
     case '100':
     case '200':
-      defaultFamily.fontFamily = 'Lato-Thin';
+      defaultFamily.fontFamily = 'lato_thin';
       break;
     case '300':
-      defaultFamily.fontFamily = 'Lato-Light';
+      defaultFamily.fontFamily = 'lato_light';
       break;
     case '400':
     case '500':
     case 'normal':
-      defaultFamily.fontFamily = 'Lato-Regular';
+      defaultFamily.fontFamily = 'lato_regular';
       break;
     case '600':
     case '700':
     case '800':
     case 'bold':
-      defaultFamily.fontFamily = 'Lato-Bold';
+      defaultFamily.fontFamily = 'lato_bold';
       break;
     case '900':
-      defaultFamily.fontFamily = 'Lato-Black';
+      defaultFamily.fontFamily = 'lato_black';
       break;
   }
 
@@ -82,12 +82,12 @@ const _useItalicVersion = (
 ) => {
   if (fontStyle !== 'italic') return fontFamilyStyle;
 
-  if (fontFamilyStyle.fontFamily === 'Lato-Regular') {
-    fontFamilyStyle.fontFamily = 'Lato-Italic';
+  if (fontFamilyStyle.fontFamily === 'lato_regular') {
+    fontFamilyStyle.fontFamily = 'lato_italic';
     return fontFamilyStyle;
   }
 
-  fontFamilyStyle.fontFamily = `${fontFamilyStyle.fontFamily}Italic`;
+  fontFamilyStyle.fontFamily = `${fontFamilyStyle.fontFamily}_italic`;
   return fontFamilyStyle;
 };
 

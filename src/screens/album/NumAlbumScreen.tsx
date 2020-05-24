@@ -73,6 +73,9 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
     });
   }, [audiobookList, sortType]);
 
+  if (playingFile) {
+    console.log(`${playingFile.trackNumber()} - ${playingFile.title()}`);
+  }
   return (
     <RootView style={screenStyles.root}>
       <AlbumList

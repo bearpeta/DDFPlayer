@@ -40,8 +40,6 @@ const styles = StyleSheet.create({
     width: 26,
     height: 26,
     borderRadius: 26 / 2,
-    //borderColor: colors.red,
-    //borderWidth: 2,
     backgroundColor: colors.red,
     justifyContent: 'center',
     alignItems: 'center',
@@ -49,8 +47,6 @@ const styles = StyleSheet.create({
   },
   itemAlbumNumberText: {
     fontWeight: '300',
-    //fontStyle: 'italic',
-    //color: colors.primaryDarkest,
   },
   itemDescriptionText: {
     flex: 1,
@@ -58,8 +54,6 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     fontSize: 14,
     marginLeft: 10,
-    //marginBottom: -3,
-    //fontStyle: 'italic',
     color: colors.primaryDarkest,
   },
 });

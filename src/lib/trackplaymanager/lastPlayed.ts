@@ -4,7 +4,6 @@ import AudiobookProvider from 'lib/audiobooks/provider';
 
 const storeKey = 'last_payed_file_id';
 
-// TODO: FINISH IT!!!!
 const getLastPlayedFile = async (): Promise<AudioFile | null> => {
   const fileId = await AsyncStorage.getItem(storeKey);
   if (fileId === null || fileId === '') {

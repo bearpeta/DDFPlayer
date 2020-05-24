@@ -20,7 +20,7 @@ type infoProps = {
 };
 
 const PlayerFileInfo = (props: infoProps): JSX.Element => {
-  const [timerId, setTimerId] = useState('');
+  const [showCancelBtn, setShowCancelBtn] = useState(false);
   const [currentPosition, setCurrentPos] = useState(0);
   const [lastTimerPosition, setLastTimerPosition] = useState(0);
   const [modalIsVisible, setModalVisibility] = useState(false);
@@ -28,11 +28,11 @@ const PlayerFileInfo = (props: infoProps): JSX.Element => {
   useEffect(() => {
     InfoStorage.get('background_timeout_id').then((value) => {
       if (value === null) {
-        setTimerId('');
+        setShowCancelBtn(false);
         return;
       }
 
-      setTimerId(value);
+      setShowCancelBtn(true);
     });
   });
 
@@ -60,12 +60,12 @@ const PlayerFileInfo = (props: infoProps): JSX.Element => {
       saveTimerPosition(fileId, position);
       cancelTimer().finally(() => startTimer(timerInSec));
       setModalVisibility(false);
-      setTimerId('dummy');
+      setShowCancelBtn(true);
     });
   };
 
   const cancelTimerBtn = useMemo((): JSX.Element => {
-    if (timerId === '') {
+    if (!showCancelBtn) {
       return <View />;
     }
 
@@ -74,12 +74,12 @@ const PlayerFileInfo = (props: infoProps): JSX.Element => {
         style={styles.cancelBtn}
         onPress={() => {
           cancelTimer(true);
-          setTimerId('');
+          setShowCancelBtn(false);
         }}>
         <DDFText style={styles.timerButtonText}>Cancel Timer</DDFText>
       </TouchableOpacity>
     );
-  }, [timerId]);
+  }, [showCancelBtn]);
 
   return (
     <View style={styles.content}>
