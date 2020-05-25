@@ -24,10 +24,7 @@ const DDFModal = (props: modalProps): JSX.Element => {
       <TouchableWithoutFeedback onPress={props.onRequestClose}>
         <View style={styles.overlay}>
           <View style={[styles.container, props.style]}>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                console.log('DDFMODAL!!!!');
-              }}>
+            <TouchableWithoutFeedback onPress={() => {}}>
               <View style={styles.contentContainer}>{props.children}</View>
             </TouchableWithoutFeedback>
           </View>

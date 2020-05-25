@@ -45,11 +45,6 @@ const PlayerControl = (props: controlProps) => {
       EVENTS.PLAYBACK_ERROR,
     ],
     (event: any) => {
-      /*
-      console.log(
-        `PLAYERCONTROL: TRACKPLAYER EVENT FIRED!!!! => ${event.type}`,
-      );
-*/
       if (event.type === EVENTS.PLAYBACK_ERROR) {
         console.log(`PLAYBACK ERROR: ${event.code}: ${event.message}`);
       }

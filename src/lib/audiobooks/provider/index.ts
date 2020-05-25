@@ -34,17 +34,14 @@ const _setup = async (): Promise<Provider> => {
     Setting.get('folderPath'),
     createFromFilePath,
   );
-  //console.log(`PROVIDER SETUP/REFRESH: ${newFiles}`);
   await _mergeFileLists(newFiles);
   return AudiobookProvider;
 };
 
 const _getAudiobooks = async (type: listTypes): Promise<list> => {
   if (Object.keys(fileList[type]).length > 0) {
-    //console.log('GET: HAS ALREADY FILES!');
     return fileList[type];
   }
-  //console.log('GET: NO FILES YET. TRY INDEXING');
   const newFiles = await indexing(
     Setting.get('folderPath'),
     createFromFilePath,

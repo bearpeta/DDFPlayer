@@ -11,11 +11,11 @@ export type addOptions = {
 };
 
 const skipToNext = async (): Promise<void> => {
-  return TrackPlayer.skipToNext().catch((e) => console.log(e));
+  return TrackPlayer.skipToNext();
 };
 
 const skipToPrevious = async (): Promise<void> => {
-  return TrackPlayer.skipToPrevious().catch((e) => console.log(e));
+  return TrackPlayer.skipToPrevious();
 };
 
 const getQueue = async (): Promise<TrackPlayer.Track[]> => {

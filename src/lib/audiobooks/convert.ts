@@ -30,10 +30,10 @@ const convertFromTrackPlayer = async (track: Track): Promise<AudioFile> => {
   const id = track.id;
   const file = AudiobookProvider.getById(id);
   if (file !== null) {
-    console.log('convertFromTrackPlayer: found in provider');
     return file;
   }
-  console.log('convertFromTrackPlayer: not found in provider');
+
+  // the code below is just a fallback and in the normal case won't get called.
 
   // react-native-track-player adds 'file://' to the url value which I don't want in 'createFromFilePath'
   if (track.url.startsWith('file://')) {

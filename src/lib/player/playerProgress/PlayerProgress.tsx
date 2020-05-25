@@ -52,11 +52,6 @@ const PlayerProgress = (props: progressProps) => {
       },
       onMove: (releasedPosition: number) => {
         if (releasedPosition > durationBarLength + 20) {
-          console.log(
-            `Released position: ${releasedPosition}; Whole length: ${
-              durationBarLength + 20
-            }`,
-          );
           releasedPosition = durationBarLength;
         }
         setPosInSec(releasedPosition);
@@ -79,8 +74,10 @@ const PlayerProgress = (props: progressProps) => {
   }, [durationBarLength, position, setPosInSec])();
 
   return (
-    <View style={styles.container} {...touchDurationBarResponder.panHandlers}>
-      <View style={styles.progressBarContainer}>
+    <View style={styles.container}>
+      <View
+        style={styles.progressBarContainer}
+        {...touchDurationBarResponder.panHandlers}>
         <ProgressBar
           onLayout={(event) => {
             setDurationBarLength(event.nativeEvent.layout.width);

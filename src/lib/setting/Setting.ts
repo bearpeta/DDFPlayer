@@ -64,7 +64,6 @@ const _setup = async () => {
 const _set = async (key: SettingOptionKeys, value: string): Promise<void> => {
   const storageKey = _getAsyncStorageKey(key);
   await AsyncStorage.setItem(storageKey, value);
-  console.log(`new value ${value} set for key '${key}'`);
   await _setup();
 };
 

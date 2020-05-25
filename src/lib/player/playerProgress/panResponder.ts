@@ -20,38 +20,27 @@ const getTouchPanResponder = ({
   return PanResponder.create({
     onPanResponderTerminationRequest: (_evt, _gestureState) => false,
     onStartShouldSetPanResponder: (_evt, _gestureState) => {
-      //console.warn('PLAYERPROGESS: onStartShouldSetPanResponder');
       return true;
     },
     onMoveShouldSetPanResponder: (_evt, _gestureState) => {
-      //console.warn('PLAYERPROGESS: onMoveShouldSetPanResponder');
-      return true;
+      //const shouldMove = gestureState.dx >= 10 || gestureState.dx <= -10;
+      return false;
     },
-    onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-    onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-    //onMoveShouldSetPanResponderCapture: (_evt, _gestureState) => false,
+    onStartShouldSetPanResponderCapture: (_evt, _gestureState) => true,
+    onMoveShouldSetPanResponderCapture: (_evt, _gestureState) => false,
     onPanResponderGrant: (evt, _gestureState) => {
       const releasedPosition = evt.nativeEvent.locationX;
-      /*console.log(
-        `getTouchPanResponder: ONGRANT: ${releasedPosition} / ${
-          _gestureState.moveX
-        }`
-      ); */
       onGrant(releasedPosition);
     },
     onPanResponderMove: (evt, _gestureState) => {
-      //console.warn('PLAYERPROGESS: onMoveShouldSetPanResponder: ON MOVE');
-
       // We have to use the moveX variable here because the locationX variable gave false results back while moving.
       const releasedPosition = _gestureState.moveX;
-      //console.log(`getTouchPanResponder: ONMOVE: ${releasedPosition}`);
       onMove(releasedPosition);
     },
     onPanResponderRelease: (_evt, _gestureState) => {
       onRelease();
     },
     onPanResponderTerminate: () => {
-      console.log('ONTERMINATE');
       onTerminate();
     },
   });

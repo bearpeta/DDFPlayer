@@ -37,7 +37,6 @@ const PlayerFileInfo = (props: infoProps): JSX.Element => {
   });
 
   useEffect(() => {
-    console.log('PLAYER FILE INFO: USE EFFECT!! FILE CHANGED!');
     if (props.file === undefined) {
       return;
     }

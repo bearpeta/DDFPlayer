@@ -18,8 +18,7 @@ const onSkipNext = () => {
 
 const onSkipPrevious = () => {
   TrackPlayManager.getPosition()
-    .catch((msg) => {
-      console.log(msg);
+    .catch((_msg) => {
       TrackPlayManager.skipToPrevious();
     })
     .then((position) => {

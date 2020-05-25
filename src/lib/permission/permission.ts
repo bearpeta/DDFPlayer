@@ -29,9 +29,6 @@ const requestPermissions = async (permissions: Permission[]) => {
     switch (result) {
       case RESULTS.UNAVAILABLE || RESULTS.BLOCKED:
         resp.blocked.push(permission as Permission);
-        console.log(
-          `This requested feature ${permission} is not available (on this device / in this context)`,
-        );
         break;
       case RESULTS.DENIED:
         resp.denied.push(permission as Permission);
@@ -56,7 +53,6 @@ const checkPermissions = async (permissions: Permission[]) => {
   try {
     statuses = await checkMultiple(permissions);
   } catch (e) {
-    console.log(e);
     return Promise.reject(e);
   }
 
