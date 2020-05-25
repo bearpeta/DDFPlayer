@@ -5,9 +5,8 @@ const DEVICE = Dimensions.get('screen');
 const withoutTab = DEVICE.height - 175;
 
 const modalHeight = withoutTab * 0.7;
-const playerControlHeight = modalHeight * 0.25;
+const playerControlHeight = modalHeight * 0.3;
 const playerVisibleFeatureHeight = modalHeight * 0.5;
-const playerTotalFeatureHeight = modalHeight * 0.75;
 
 const HEIGHTS = {
   DEVICE: DEVICE.height,
@@ -19,7 +18,7 @@ const HEIGHTS = {
 
 const ANIMATED = {
   HIDDEN: withoutTab,
-  FULL_OPEN: withoutTab - playerTotalFeatureHeight,
+  FULL_OPEN: withoutTab - playerControlHeight - playerVisibleFeatureHeight,
   VISIBLE: withoutTab - playerControlHeight,
 };
 

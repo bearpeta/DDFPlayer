@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback, useMemo} from 'react';
-import {Animated, View, SafeAreaView} from 'react-native';
+import {Animated, View} from 'react-native';
 import {ANIMATED, animatedStartPosition} from './constants';
 import {panResponder} from './panResponder';
 import animateMove from './animateMove';
@@ -23,10 +23,7 @@ type modalProps = {
 
 const PlayerModal = ({isOpen, displayTitle, file}: modalProps) => {
   const [isVisible, setVisibility] = useState<boolean>(isOpen);
-  const [playingTitle, setPlayingTitle] = useState(displayTitle);
   const [playingFile, setPlayingFile] = useState<AudioFile | undefined>(file);
-
-  useEffect(() => setPlayingTitle(displayTitle), [displayTitle]);
 
   useEffect(() => setVisibility(isOpen), [isOpen]);
 
@@ -46,13 +43,13 @@ const PlayerModal = ({isOpen, displayTitle, file}: modalProps) => {
     (event: any) => {
       if (event.type === EVENTS.TRACK_CHANGED) {
         if (event.nextTrack === null) return;
-        setPlayingFileFromTrackPlayer(event.nextTrack);
+        //setPlayingFileFromTrackPlayer(event.nextTrack);
         return;
       }
 
       if (event.type === EVENTS.CHANGE_PLAYBACK_STATE) {
         setVisibility(
-          event.state !== STATES.NONE && event.state !== STATES.STOPPED,
+          event.state !== STATES.NONE, //&& event.state !== STATES.STOPPED,
         );
       }
     },
@@ -70,18 +67,18 @@ const PlayerModal = ({isOpen, displayTitle, file}: modalProps) => {
   return (
     <Animated.View
       style={[styles.container, {transform: [{translateY: interpolation}]}]}>
-      <View style={styles.subContainer}>
-        <View style={styles.gestureArea} {...panResponder.panHandlers}>
+      <View style={styles.subContainer} {...panResponder.panHandlers}>
+        <View style={styles.gestureArea}>
           <View style={styles.progressBarContainer}>
-            <PlayerProgress playingTitle={playingTitle} />
+            <PlayerProgress playingTitle={displayTitle} />
           </View>
           <View style={styles.playControlContainer}>
             <PlayerControl />
           </View>
         </View>
-        <SafeAreaView style={styles.contentContainer}>
-          <PlayerFileInfo file={playingFile} />
-        </SafeAreaView>
+        <View style={styles.contentContainer}>
+          <PlayerFileInfo file={file} />
+        </View>
       </View>
     </Animated.View>
   );
