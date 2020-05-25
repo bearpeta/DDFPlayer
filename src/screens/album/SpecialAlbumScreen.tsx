@@ -34,9 +34,8 @@ const SpecialAlbumScreen = ({
   const [
     audiobookList,
     isPlayerOpen,
-    setIsPlayerOpen,
     playingFile,
-    setPlayingFile,
+    displayTitle,
   ] = useAlbumPlayer('special');
 
   useEffect(() => {
@@ -112,10 +111,8 @@ const SpecialAlbumScreen = ({
         variant: Setting.get('queuePicking'),
       });
       TrackPlayManager.playNew(queue);
-      setIsPlayerOpen(true);
-      setPlayingFile(track);
     },
-    [_isAlreadyPlaying, setIsPlayerOpen, setPlayingFile],
+    [_isAlreadyPlaying],
   );
 
   const _onAlbumPress = useCallback(
@@ -142,10 +139,7 @@ const SpecialAlbumScreen = ({
       variant: 'in_order',
     });
     TrackPlayManager.playNew(queue);
-    setIsPlayerOpen(true);
-    setPlayingFile(files[0]);
-    //setModalPlayingFileId(files[0].id());
-  }, [modalAlbumFiles, _isAlreadyPlaying, setIsPlayerOpen, setPlayingFile]);
+  }, [modalAlbumFiles, _isAlreadyPlaying]);
 
   const onModalPlay = useCallback(
     (file: AudioFile): void => {
@@ -158,11 +152,8 @@ const SpecialAlbumScreen = ({
         variant: 'in_order',
       });
       TrackPlayManager.playNew(queue);
-      setIsPlayerOpen(true);
-      setPlayingFile(file);
-      //setModalPlayingFileId(file.id());
     },
-    [modalAlbumFiles, _isAlreadyPlaying, setIsPlayerOpen, setPlayingFile],
+    [modalAlbumFiles, _isAlreadyPlaying],
   );
 
   const onModalPause = useCallback((_file: AudioFile): void => {
@@ -173,16 +164,6 @@ const SpecialAlbumScreen = ({
   const _onModalRequestClose = useCallback((): void => {
     setShowModal(false);
   }, []);
-
-  const getDisplayTitle = (): string => {
-    if (!playingFile) return '';
-
-    // Special audiobooks with just one track sometimes have the same value set for album and title. In this case we will just show the title.
-    if (playingFile.album() === playingFile.title())
-      return `SPECIAL - ${playingFile.title()}`;
-
-    return `${playingFile.album()} - ${playingFile.title()}`;
-  };
 
   return (
     <RootView style={screenStyles.root}>
@@ -210,7 +191,7 @@ const SpecialAlbumScreen = ({
       <PlayerModal
         isOpen={isPlayerOpen}
         file={playingFile}
-        displayTitle={getDisplayTitle()}
+        displayTitle={displayTitle}
       />
     </RootView>
   );

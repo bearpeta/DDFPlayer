@@ -1,18 +1,12 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {Animated, View} from 'react-native';
 import {ANIMATED, animatedStartPosition} from './constants';
 import {panResponder} from './panResponder';
 import animateMove from './animateMove';
 import PlayerControl from './playerControl/PlayerControl';
-import TrackPlayManager, {
-  usePlayerEvents,
-} from 'lib/trackplaymanager/TrackPlayManager';
-import {EVENTS} from 'lib/trackplaymanager/events';
-import {STATES} from 'lib/trackplaymanager/states';
 import PlayerProgress from 'lib/player/playerProgress/PlayerProgress';
 import styles from './styles';
 import {AudioFile} from 'lib/audiobooks/type';
-import {convertFromTrackPlayer} from 'lib/audiobooks/convert';
 import PlayerFileInfo from './playerFileInfo/PlayerFileInfo';
 
 type modalProps = {
@@ -22,38 +16,10 @@ type modalProps = {
 };
 
 const PlayerModal = ({isOpen, displayTitle, file}: modalProps) => {
-  const [isVisible, setVisibility] = useState<boolean>(isOpen);
-  const [playingFile, setPlayingFile] = useState<AudioFile | undefined>(file);
-
-  useEffect(() => setVisibility(isOpen), [isOpen]);
-
   useEffect(() => {
-    const moveTo: number = isVisible ? 1 : 0;
+    const moveTo: number = isOpen ? 1 : 0;
     animateMove(moveTo);
-  }, [isVisible]);
-
-  const setPlayingFileFromTrackPlayer = useCallback(async (trackId: string) => {
-    const track = await TrackPlayManager.getTrack(trackId);
-    if (track === null) return;
-    setPlayingFile(await convertFromTrackPlayer(track));
-  }, []);
-
-  usePlayerEvents(
-    [EVENTS.CHANGE_PLAYBACK_STATE, EVENTS.TRACK_CHANGED],
-    (event: any) => {
-      if (event.type === EVENTS.TRACK_CHANGED) {
-        if (event.nextTrack === null) return;
-        //setPlayingFileFromTrackPlayer(event.nextTrack);
-        return;
-      }
-
-      if (event.type === EVENTS.CHANGE_PLAYBACK_STATE) {
-        setVisibility(
-          event.state !== STATES.NONE, //&& event.state !== STATES.STOPPED,
-        );
-      }
-    },
-  );
+  }, [isOpen]);
 
   const interpolation = useMemo(
     () =>

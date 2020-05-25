@@ -5,14 +5,9 @@ import {listTypes} from 'lib/audiobooks/provider/type';
 import useAudiobookProvider from './useAudiobookProvider';
 import useLastPlayedFile from './useLastPlayedFile';
 import useEventListeners from './useEventListener';
+import useDisplayTitle from './useDisplayTitle';
 
-type returnType = [
-  FileList,
-  boolean,
-  (t: boolean) => void,
-  AudioFile | undefined,
-  (t: AudioFile | undefined) => void,
-];
+type returnType = [FileList, boolean, AudioFile | undefined, string];
 
 const useAlbumPlayer = (listType: listTypes): returnType => {
   const [audiobookList, setAudiobookList] = useState<FileList>({});
@@ -20,6 +15,9 @@ const useAlbumPlayer = (listType: listTypes): returnType => {
   const [playingFile, setPlayingFile] = useState<AudioFile | undefined>(
     undefined,
   );
+  const [displayTitle, setDisplayTitle] = useState<string>('');
+
+  useDisplayTitle(playingFile, setDisplayTitle);
 
   useEventListeners({
     keepPlayerOpen: setIsPlayerOpen,
@@ -28,13 +26,7 @@ const useAlbumPlayer = (listType: listTypes): returnType => {
   useAudiobookProvider(listType, setAudiobookList);
   useLastPlayedFile(audiobookList, setIsPlayerOpen, setPlayingFile);
 
-  return [
-    audiobookList,
-    isPlayerOpen,
-    setIsPlayerOpen,
-    playingFile,
-    setPlayingFile,
-  ];
+  return [audiobookList, isPlayerOpen, playingFile, displayTitle];
 };
 
 export default useAlbumPlayer;

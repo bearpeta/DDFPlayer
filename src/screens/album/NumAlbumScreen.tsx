@@ -20,9 +20,8 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
   const [
     audiobookList,
     isPlayerOpen,
-    setIsPlayerOpen,
     playingFile,
-    setPlayingFile,
+    displayTitle,
   ] = useAlbumPlayer('numbered');
 
   useEffect(() => {
@@ -58,10 +57,8 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
         variant: Setting.get('queuePicking'),
       });
       TrackPlayManager.playNew(queue);
-      setIsPlayerOpen(true);
-      setPlayingFile(album);
     },
-    [playingFile, audiobookList, setIsPlayerOpen, setPlayingFile],
+    [playingFile, audiobookList],
   );
 
   const sortedList = useMemo(() => {
@@ -73,9 +70,6 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
     });
   }, [audiobookList, sortType]);
 
-  if (playingFile) {
-    console.log(`${playingFile.trackNumber()} - ${playingFile.title()}`);
-  }
   return (
     <RootView style={screenStyles.root}>
       <AlbumList
@@ -89,11 +83,7 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
       <PlayerModal
         isOpen={isPlayerOpen}
         file={playingFile}
-        displayTitle={
-          playingFile
-            ? `${playingFile.trackNumber()} - ${playingFile.title()}`
-            : ''
-        }
+        displayTitle={displayTitle}
       />
     </RootView>
   );

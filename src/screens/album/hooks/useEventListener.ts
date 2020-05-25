@@ -4,12 +4,12 @@ import {EVENTS} from 'lib/trackplaymanager/events';
 import {AudioFile} from 'lib/audiobooks/type';
 import {convertFromTrackPlayer} from 'lib/audiobooks/convert';
 
-type listenerType = (setIsPlayerOpen: boolean) => void;
 type listeners = {
   trackChange: (playingFile: AudioFile) => void;
   keepPlayerOpen: (keepPlayerOpen: boolean) => void;
 };
-// This hook registers all the Track-Player listeners for the view
+
+// This hook registers all the Track-Player listeners for the two main views
 const useEventListeners = (eventListener: listeners) => {
   const setPlayingFileFromTrackPlayer = useCallback(
     async (trackId: string) => {
@@ -30,8 +30,11 @@ const useEventListeners = (eventListener: listeners) => {
     });
 
     TrackPlayManager.addEventListener(EVENTS.TRACK_CHANGED, (event: any) => {
-      if (event.nextTrack === null) return;
+      if (event.nextTrack === null) {
+        return;
+      }
       setPlayingFileFromTrackPlayer(event.nextTrack);
+      eventListener.keepPlayerOpen(true);
     });
   }, [eventListener, setPlayingFileFromTrackPlayer]);
 
