@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
+import {View, StyleSheet, Dimensions, ViewStyle} from 'react-native';
 import Play from 'res/images/player/play.svg';
 import Pause from 'res/images/player/pause.svg';
 import Forward10Sec from 'res/images/player/forward10Sec.svg';
@@ -24,7 +24,7 @@ import {
 } from './actions';
 
 type controlProps = {
-  style?: {};
+  style?: ViewStyle;
 };
 
 const amountBtn = 7;
@@ -36,29 +36,17 @@ const buttonWide = (deviceWidth - 2 * paddingButtonRow) / amountBtn;
 const PlayerControl = (props: controlProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
-  usePlayerEvents(
-    [
-      EVENTS.PAUSE,
-      EVENTS.PLAY,
-      EVENTS.STOP,
-      EVENTS.CHANGE_PLAYBACK_STATE,
-      EVENTS.PLAYBACK_ERROR,
-    ],
-    (event: any) => {
-      if (event.type === EVENTS.PLAYBACK_ERROR) {
-        console.log(`PLAYBACK ERROR: ${event.code}: ${event.message}`);
-      }
-
+  usePlayerEvents([EVENTS.CHANGE_PLAYBACK_STATE], (event: any) => {
+    /*
       // Just gets fired when the "play"/"pause/stop" button in the notification bar or lock screen get pressed
       if ([EVENTS.PLAY, EVENTS.PAUSE, EVENTS.STOP].includes(event.type)) {
         setIsPlaying(event.type === EVENTS.PLAY);
       }
-
-      if (event.type === EVENTS.CHANGE_PLAYBACK_STATE) {
-        setIsPlaying(event.state === STATES.PLAYING);
-      }
-    },
-  );
+ */
+    if (event.type === EVENTS.CHANGE_PLAYBACK_STATE) {
+      setIsPlaying(event.state === STATES.PLAYING);
+    }
+  });
   return (
     <View style={[styles.container, props.style]}>
       <ControlButton

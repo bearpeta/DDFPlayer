@@ -60,11 +60,9 @@ const PlayerProgress = (props: progressProps) => {
       onRelease: () => {
         setUserInteraction(false);
         // Since the forward-function expects the amount of seconds it should jump forward not the exact position it should jump to we have to .
-        TrackPlayManager.forward(currentSecond.current - position)
-          .then(() => TrackPlayManager.resume())
-          .catch((e) =>
-            console.log(`PlayerProgress: onRelease: forward failed: ${e}`),
-          );
+        TrackPlayManager.forward(currentSecond.current - position).then(() =>
+          TrackPlayManager.resume(),
+        );
       },
       onTerminate: () => {
         setUserInteraction(false);
@@ -101,18 +99,13 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    //paddingTop: 2,
     paddingLeft: 20,
     paddingRight: 20,
     justifyContent: 'center',
     alignContent: 'center',
     flexDirection: 'column',
-    //borderWidth: 1,
-    //  borderColor: 'red',
   },
   progressBarContainer: {
-    // borderWidth: 1,
-    // borderColor: 'white',
     width: '100%',
     height: '70%',
     justifyContent: 'center',
