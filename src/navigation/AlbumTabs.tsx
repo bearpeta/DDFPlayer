@@ -24,8 +24,8 @@ const AlbumTabs = (): JSX.Element => {
           backgroundColor: colors.primary,
         },
       }}>
-      <Tab.Screen name="Nummerierte Alben" component={NumbAlbumScreen} />
-      <Tab.Screen name="Special Alben" component={SpecialAlbumScreen} />
+      <Tab.Screen name="Numbered albums" component={NumbAlbumScreen} />
+      <Tab.Screen name="Special albums" component={SpecialAlbumScreen} />
     </Tab.Navigator>
   );
 };

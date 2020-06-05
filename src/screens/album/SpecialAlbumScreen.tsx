@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo, useState, useEffect} from 'react';
-import AlbumList from 'lib/view/AlbumList';
+import AlbumList from 'screens/album/list/AlbumList';
 import {AudioFile} from 'lib/audiobooks/type';
 import RootView from 'lib/view/RootView';
 import PlayerModal from 'lib/player/PlayerModal';
@@ -53,12 +53,13 @@ const SpecialAlbumScreen = ({
   });
 
   useEffect(() => {
-    // Every time this screen comes into focus I don't want to show the sort option in the header bar so we have to reset it.
+    // Every time this screen comes into focus I don't want to show the sort option in the header bar for special albums, so we have to reset it.
     navigation.addListener('focus', () => {
       navigation.dangerouslyGetParent()!.setOptions({
         headerRight: () => {
           return (
             <HeaderRightView
+              onHistoryPress={() => navigation.navigate('HistoryScreen')}
               onSettingPress={() => {
                 navigation.navigate('SettingScreen');
               }}
@@ -110,6 +111,7 @@ const SpecialAlbumScreen = ({
         size: 1,
         variant: Setting.get('queuePicking'),
       });
+      setTimeout(() => {});
       TrackPlayManager.playNew(queue);
     },
     [_isAlreadyPlaying],

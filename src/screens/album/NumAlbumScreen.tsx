@@ -1,7 +1,7 @@
 import React, {useCallback, useState, useMemo, useEffect} from 'react';
 import {NavigationProp} from '@react-navigation/native';
 import PlayerModal from 'lib/player/PlayerModal';
-import AlbumList from 'lib/view/AlbumList';
+import AlbumList from 'screens/album/list/AlbumList';
 import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import {AudioFile} from 'lib/audiobooks/type';
 import creator from 'screens/album/queue/creator';
@@ -34,6 +34,7 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
                 const sort: sorting = sortType === 'asc' ? 'desc' : 'asc';
                 setSortType(sort);
               }}
+              onHistoryPress={() => navigation.navigate('HistoryScreen')}
               onSettingPress={() => {
                 navigation.navigate('SettingScreen');
               }}

@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import {View, TouchableOpacity, StyleSheet, ViewStyle} from 'react-native';
-import AlbumListItemCoverImage from 'lib/view/AlbumListItemCoverImage';
 import colors from 'res/colors';
+import DDFImage from 'lib/view/image/DDFImage';
 
 type listItemType = {
   listIndex: number;
@@ -28,7 +28,7 @@ const AlbumListItem = (props: listItemType) => {
         style={styles.touchableContainer}
         activeOpacity={0.7}>
         <View style={styles.imageContainer}>
-          <AlbumListItemCoverImage source={props.imgSource} />
+          <DDFImage source={props.imgSource} resizeMode="stretch" />
         </View>
         <View style={styles.descriptionContainer}>{props.description}</View>
       </TouchableOpacity>

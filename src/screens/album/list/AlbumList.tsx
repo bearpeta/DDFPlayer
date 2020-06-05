@@ -1,7 +1,7 @@
 import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import AlbumListItem from './AlbumListItem';
-import EmptyListView from './EmptyListView';
+import EmptyListView from '../../../lib/view/EmptyListView';
 
 type albumListProps = {
   list: any[];
