@@ -2,9 +2,11 @@ import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import SettingsIcon from 'res/images/settings_icon.svg';
 import SortIcon from 'res/images/sort_icon.svg';
+import HistoryIcon from 'res/images/history_icon.svg';
 
 type viewProps = {
   onSortPress?: () => void;
+  onHistoryPress: () => void;
   onSettingPress: () => void;
 };
 
@@ -16,6 +18,9 @@ const HeaderRightView = (props: viewProps) => {
   return (
     <View style={styles.container}>
       <_SortButton onSortPress={props.onSortPress} />
+      <TouchableOpacity style={styles.button} onPress={props.onHistoryPress}>
+        <HistoryIcon width={'100%'} height={'100%'} />
+      </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={props.onSettingPress}>
         <SettingsIcon width={'100%'} height={'100%'} />
       </TouchableOpacity>

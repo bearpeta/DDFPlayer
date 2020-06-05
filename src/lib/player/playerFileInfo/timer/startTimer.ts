@@ -16,9 +16,7 @@ const startTimer = (timeInSec: number) => {
   currentTimerTime = timeInSec;
   const timeInMilliSec: number = timeInSec * 1000;
   const timeoutId: number = BackgroundTimer.setTimeout(() => {
-    TrackPlayManager.stop().then(() => cancelTimer());
-    // this will be executed once after 10 seconds
-    // even when app is the the background
+    TrackPlayManager.stop().then(() => cancelTimer(true));
   }, timeInMilliSec);
 
   InfoStorage.set('background_timeout_id', timeoutId.toString());

@@ -13,8 +13,10 @@ const saveCurrentPos = async (
 ): Promise<void> => {
   try {
     const id: string = await TrackPlayManager.getCurrentTrack();
-    const position: number = await getPosition();
-    if (id !== null) await savePosition(id, position.toString());
+    if (id !== null) {
+      const position: number = await getPosition();
+      await savePosition(id, position.toString());
+    }
   } catch (e) {
     return Promise.reject(e);
   } finally {

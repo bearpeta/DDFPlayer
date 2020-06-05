@@ -5,6 +5,7 @@ import AlbumTabs from 'navigation/AlbumTabs';
 import SettingScreen from 'screens/setting/SettingScreen';
 import colors from 'res/colors';
 import HeaderTitle from './HeaderTitle';
+import HistoryScreen from 'screens/history/HistoryScreen';
 
 export const navigationRef = React.createRef<NavigationContainerRef>();
 
@@ -39,6 +40,14 @@ const RootNavigation = (): JSX.Element => {
         component={SettingScreen}
         options={{
           title: 'Settings',
+          ...generalOptions,
+        }}
+      />
+      <Stack.Screen
+        name="HistoryScreen"
+        component={HistoryScreen}
+        options={{
+          title: 'History',
           ...generalOptions,
         }}
       />
