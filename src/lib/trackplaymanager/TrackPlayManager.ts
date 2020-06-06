@@ -50,10 +50,12 @@ const _addDefaultListener = (): void => {
   };
 
   const remoteDuckListener = (event: any): void => {
-    if (event.permanent) {
+    // I want to test if I can ignore permanent, because I cannot control the notification by myself and I don't want the notification to disappear because the playback got interrupted.
+    /*if (event.permanent) {
       _stop();
       return;
-    }
+    } */
+
     if (event.paused) {
       _pause();
       return;
