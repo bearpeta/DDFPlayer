@@ -10,36 +10,53 @@ import {calcProgressViewLength, calcSecondsByPosition} from './calculations';
 
 type progressProps = {
   playingTitle: string;
+  lastSavedPosition: number;
+  duration: number;
 };
 
 const PlayerProgress = (props: progressProps) => {
-  const {position, duration} = usePlayerProgress();
+  // is used to save the current position in seconds while the user is interacting with progress bar.
+  const currentSecond = useRef(0);
+  const [pos, setPos] = useState(0);
+
+  const {position} = usePlayerProgress();
   const [durationBarLength, setDurationBarLength] = useState(0);
   const [progressBarLength, setProgressBarLength] = useState(0);
   const [userInteraction, setUserInteraction] = useState(false); // is true when panResponder interaction is ongoing
 
+  // This just get called every time the playing file changes.
+  // We need lastSavedPosition particularly when the app starts up and it pre-loads the file from the last time using.
   useEffect(() => {
-    currentSecond.current = position;
+    setPos(props.lastSavedPosition);
+  }, [props.lastSavedPosition]);
+
+  // As long as the position value is 0 I don't want to use it and use props.lastSavedPosition instead.
+  useEffect(() => {
+    if (position < 1) {
+      return;
+    }
+    setPos(position);
+  }, [position]);
+
+  useEffect(() => {
+    currentSecond.current = pos;
     const newLength = calcProgressViewLength(
       durationBarLength,
-      duration,
-      position,
+      props.duration,
+      pos,
     );
     setProgressBarLength(newLength);
-  }, [position, durationBarLength, duration]);
-
-  // is used to save the current position in seconds while the user is interacting with progress bar.
-  const currentSecond = useRef(position);
+  }, [pos, durationBarLength, props.duration]);
 
   const setPosInSec = useCallback(
     (releasedXPosition) => {
       currentSecond.current = calcSecondsByPosition(
         releasedXPosition,
         durationBarLength,
-        duration,
+        props.duration,
       );
     },
-    [durationBarLength, duration],
+    [durationBarLength, props.duration],
   );
 
   const touchDurationBarResponder = useCallback(() => {
@@ -60,7 +77,7 @@ const PlayerProgress = (props: progressProps) => {
       onRelease: () => {
         setUserInteraction(false);
         // Since the forward-function expects the amount of seconds it should jump forward not the exact position it should jump to we have to .
-        TrackPlayManager.forward(currentSecond.current - position).then(() =>
+        TrackPlayManager.forward(currentSecond.current - pos).then(() =>
           TrackPlayManager.resume(),
         );
       },
@@ -69,7 +86,7 @@ const PlayerProgress = (props: progressProps) => {
         TrackPlayManager.resume();
       },
     });
-  }, [durationBarLength, position, setPosInSec])();
+  }, [durationBarLength, pos, setPosInSec])();
 
   return (
     <View style={styles.container}>
@@ -87,7 +104,7 @@ const PlayerProgress = (props: progressProps) => {
       <View style={styles.timeContainer}>
         <ProgressTime
           currentSecond={currentSecond.current}
-          duration={duration}
+          duration={props.duration}
           title={props.playingTitle}
         />
       </View>

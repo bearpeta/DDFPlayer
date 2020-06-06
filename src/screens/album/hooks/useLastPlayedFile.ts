@@ -2,12 +2,17 @@ import {useCallback, useEffect} from 'react';
 import {AudioFile} from 'lib/audiobooks/type';
 import {getLastPlayedFile} from 'lib/trackplaymanager/lastPlayed';
 import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
-import {setIsPlayerOpenType, setPlayingFileType} from './types';
+import {
+  setIsPlayerOpenType,
+  setPlayingFileType,
+  setCurrentPositionType,
+} from './types';
 import {STATES} from 'lib/trackplaymanager/states';
 import {convertFromTrackPlayer} from 'lib/audiobooks/convert';
 import {FileList} from '../type';
 import creator from '../queue/creator';
 import Setting from 'lib/setting/Setting';
+import {getCurrentPosition} from 'lib/audiobooks/currentProgress';
 
 // This hook tries to set the current playing file and the open state of the player by checking
 // if there is a file playing or if there is a last played file set.
@@ -15,6 +20,7 @@ const useLastPlayedFile = (
   audiobookList: FileList,
   setIsPlayerOpen: setIsPlayerOpenType,
   setPlayingFile: setPlayingFileType,
+  setCurrentPosition: setCurrentPositionType,
 ) => {
   const createDefaultQueue = useCallback(
     (file: AudioFile): AudioFile[] => {
@@ -47,7 +53,12 @@ const useLastPlayedFile = (
 
     setIsPlayerOpen(true);
     setPlayingFile(file);
-  }, [createDefaultQueue, setIsPlayerOpen, setPlayingFile]);
+    // If there is no playing file and I load the last played one, it makes sense to jump also to the last known position.eee
+    getCurrentPosition(file).then((position: number) => {
+      TrackPlayManager.seekTo(position);
+      setCurrentPosition(position);
+    });
+  }, [createDefaultQueue, setIsPlayerOpen, setPlayingFile, setCurrentPosition]);
 
   useEffect(() => {
     TrackPlayManager.getState().then((state) => {
@@ -67,7 +78,7 @@ const useLastPlayedFile = (
         });
       });
     });
-  }, [usingLastPlayed, setIsPlayerOpen, setPlayingFile]);
+  }, [usingLastPlayed, setIsPlayerOpen, setPlayingFile, setCurrentPosition]);
 };
 
 export default useLastPlayedFile;

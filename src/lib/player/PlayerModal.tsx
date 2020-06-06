@@ -9,13 +9,18 @@ import styles from './styles';
 import {AudioFile} from 'lib/audiobooks/type';
 import PlayerFileInfo from './playerFileInfo/PlayerFileInfo';
 
-type modalProps = {
-  isOpen: boolean;
+type PlayInfo = {
   displayTitle: string;
+  lastSavedPosition: number;
   file?: AudioFile;
 };
 
-const PlayerModal = ({isOpen, displayTitle, file}: modalProps) => {
+type modalProps = {
+  isOpen: boolean;
+  info: PlayInfo;
+};
+
+const PlayerModal = ({isOpen, info}: modalProps) => {
   useEffect(() => {
     const moveTo: number = isOpen ? 1 : 0;
     animateMove(moveTo);
@@ -36,14 +41,18 @@ const PlayerModal = ({isOpen, displayTitle, file}: modalProps) => {
       <View style={styles.subContainer} {...panResponder.panHandlers}>
         <View style={styles.gestureArea}>
           <View style={styles.progressBarContainer}>
-            <PlayerProgress playingTitle={displayTitle} />
+            <PlayerProgress
+              playingTitle={info.displayTitle}
+              lastSavedPosition={info.lastSavedPosition}
+              duration={info.file ? info.file.duration() : 0}
+            />
           </View>
           <View style={styles.playControlContainer}>
             <PlayerControl />
           </View>
         </View>
         <View style={styles.contentContainer}>
-          <PlayerFileInfo file={file} />
+          <PlayerFileInfo file={info.file} />
         </View>
       </View>
     </Animated.View>

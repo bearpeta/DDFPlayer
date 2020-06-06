@@ -1,5 +1,5 @@
-import React, {useCallback, useState, useMemo, useEffect} from 'react';
-import {NavigationProp} from '@react-navigation/native';
+import React, {useCallback, useState, useMemo} from 'react';
+import {NavigationProp, useFocusEffect} from '@react-navigation/native';
 import PlayerModal from 'lib/player/PlayerModal';
 import AlbumList from 'screens/album/list/AlbumList';
 import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
@@ -22,10 +22,12 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
     isPlayerOpen,
     playingFile,
     displayTitle,
+    lastSavedPosition,
   ] = useAlbumPlayer('numbered');
 
-  useEffect(() => {
-    navigation.addListener('focus', () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useFocusEffect(
+    React.useCallback(() => {
       navigation.dangerouslyGetParent()!.setOptions({
         headerRight: () => {
           return (
@@ -42,8 +44,8 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
           );
         },
       });
-    });
-  }, [navigation, sortType]);
+    }, [sortType, navigation]),
+  );
 
   const _onAlbumPress = useCallback(
     (album: AudioFile): void => {
@@ -83,8 +85,11 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
       />
       <PlayerModal
         isOpen={isPlayerOpen}
-        file={playingFile}
-        displayTitle={displayTitle}
+        info={{
+          file: playingFile,
+          displayTitle: displayTitle,
+          lastSavedPosition: lastSavedPosition,
+        }}
       />
     </RootView>
   );

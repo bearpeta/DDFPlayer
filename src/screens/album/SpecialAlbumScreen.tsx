@@ -13,7 +13,7 @@ import DDFText from 'lib/view/DDFText';
 import colors from 'res/colors';
 import {EVENTS} from 'lib/trackplaymanager/events';
 import {STATES} from 'lib/trackplaymanager/states';
-import {NavigationProp} from '@react-navigation/native';
+import {NavigationProp, useFocusEffect} from '@react-navigation/native';
 import HeaderRightView from 'navigation/HeaderRightView';
 import Setting from 'lib/setting/Setting';
 
@@ -36,6 +36,7 @@ const SpecialAlbumScreen = ({
     isPlayerOpen,
     playingFile,
     displayTitle,
+    lastSavedPosition,
   ] = useAlbumPlayer('special');
 
   useEffect(() => {
@@ -52,9 +53,9 @@ const SpecialAlbumScreen = ({
     });
   });
 
-  useEffect(() => {
-    // Every time this screen comes into focus I don't want to show the sort option in the header bar for special albums, so we have to reset it.
-    navigation.addListener('focus', () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useFocusEffect(
+    React.useCallback(() => {
       navigation.dangerouslyGetParent()!.setOptions({
         headerRight: () => {
           return (
@@ -67,8 +68,8 @@ const SpecialAlbumScreen = ({
           );
         },
       });
-    });
-  }, [navigation]);
+    }, [navigation]),
+  );
 
   const mergedSameAlbums = useMemo((): merged[] => {
     const list: {[key: string]: merged} = {};
@@ -192,8 +193,11 @@ const SpecialAlbumScreen = ({
       />
       <PlayerModal
         isOpen={isPlayerOpen}
-        file={playingFile}
-        displayTitle={displayTitle}
+        info={{
+          file: playingFile,
+          displayTitle: displayTitle,
+          lastSavedPosition: lastSavedPosition,
+        }}
       />
     </RootView>
   );

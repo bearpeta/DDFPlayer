@@ -1,12 +1,12 @@
 import {useCallback, useEffect, useRef} from 'react';
 import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import {EVENTS} from 'lib/trackplaymanager/events';
-import {AudioFile} from 'lib/audiobooks/type';
 import {convertFromTrackPlayer} from 'lib/audiobooks/convert';
+import {setPlayingFileType, setIsPlayerOpenType} from './types';
 
 type listeners = {
-  trackChange: (playingFile: AudioFile) => void;
-  keepPlayerOpen: (keepPlayerOpen: boolean) => void;
+  trackChange: setPlayingFileType;
+  keepPlayerOpen: setIsPlayerOpenType;
 };
 
 // This hook registers all the Track-Player listeners for the two main views
