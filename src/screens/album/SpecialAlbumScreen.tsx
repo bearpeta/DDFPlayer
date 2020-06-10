@@ -1,21 +1,21 @@
 import React, {useCallback, useMemo, useState, useEffect} from 'react';
-import AlbumList from 'screens/album/list/AlbumList';
-import {AudioFile} from 'lib/audiobooks/type';
-import RootView from 'lib/view/RootView';
-import PlayerModal from 'lib/player/PlayerModal';
-import {screenStyles} from 'screens/album/styles';
-import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
-import creator from 'screens/album/queue/creator';
+import {NavigationProp, useFocusEffect} from '@react-navigation/native';
 import {StyleSheet} from 'react-native';
-import useAlbumPlayer from './hooks/useAlbumPlayer';
-import SpecialFilesModal from './extend_modal/SpecialFilesModal';
-import DDFText from 'lib/view/DDFText';
-import colors from 'res/colors';
+import {AudioFile} from 'lib/audiobooks/type';
+import PlayerModal from 'lib/player/PlayerModal';
+import Setting from 'lib/setting/Setting';
 import {EVENTS} from 'lib/trackplaymanager/events';
 import {STATES} from 'lib/trackplaymanager/states';
-import {NavigationProp, useFocusEffect} from '@react-navigation/native';
+import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
+import DDFText from 'lib/view/DDFText';
+import RootView from 'lib/view/RootView';
+import colors from 'res/colors';
 import HeaderRightView from 'navigation/HeaderRightView';
-import Setting from 'lib/setting/Setting';
+import AlbumList from 'screens/album/list/AlbumList';
+import creator from 'screens/album/queue/creator';
+import {screenStyles} from 'screens/album/styles';
+import SpecialFilesModal from './extend_modal/SpecialFilesModal';
+import useAlbumPlayer from './hooks/useAlbumPlayer';
 
 type merged = {
   [key: number]: AudioFile;
@@ -37,6 +37,7 @@ const SpecialAlbumScreen = ({
     playingFile,
     displayTitle,
     lastSavedPosition,
+    setIsPlayerOpen,
   ] = useAlbumPlayer('special');
 
   useEffect(() => {
@@ -102,9 +103,20 @@ const SpecialAlbumScreen = ({
     [playingFile],
   );
 
+  const resumePlayingFile = useCallback((): void => {
+    TrackPlayManager.getState().then((state) => {
+      if (state !== STATES.PLAYING) {
+        TrackPlayManager.resume();
+      }
+      setIsPlayerOpen(true);
+    });
+  }, [setIsPlayerOpen]);
+
   const _playSingleFileAlbum = useCallback(
     (track: AudioFile) => {
-      if (_isAlreadyPlaying(track.id())) return;
+      if (_isAlreadyPlaying(track.id())) {
+        return resumePlayingFile();
+      }
 
       const queue: AudioFile[] = creator({
         firstId: track.id(),
@@ -115,7 +127,7 @@ const SpecialAlbumScreen = ({
       setTimeout(() => {});
       TrackPlayManager.playNew(queue);
     },
-    [_isAlreadyPlaying],
+    [_isAlreadyPlaying, resumePlayingFile],
   );
 
   const _onAlbumPress = useCallback(
@@ -133,7 +145,9 @@ const SpecialAlbumScreen = ({
 
   const _onModalPlayAll = useCallback((): void => {
     const files: AudioFile[] = modalAlbumFiles;
-    if (_isAlreadyPlaying(files[0].id())) return;
+    if (_isAlreadyPlaying(files[0].id())) {
+      return resumePlayingFile();
+    }
 
     const queue: AudioFile[] = creator({
       firstId: files[0].id(),
@@ -142,11 +156,13 @@ const SpecialAlbumScreen = ({
       variant: 'in_order',
     });
     TrackPlayManager.playNew(queue);
-  }, [modalAlbumFiles, _isAlreadyPlaying]);
+  }, [modalAlbumFiles, _isAlreadyPlaying, resumePlayingFile]);
 
   const onModalPlay = useCallback(
     (file: AudioFile): void => {
-      if (_isAlreadyPlaying(file.id())) return;
+      if (_isAlreadyPlaying(file.id())) {
+        return resumePlayingFile();
+      }
 
       const queue: AudioFile[] = creator({
         firstId: file.id(),
@@ -156,7 +172,7 @@ const SpecialAlbumScreen = ({
       });
       TrackPlayManager.playNew(queue);
     },
-    [modalAlbumFiles, _isAlreadyPlaying],
+    [modalAlbumFiles, _isAlreadyPlaying, resumePlayingFile],
   );
 
   const onModalPause = useCallback((_file: AudioFile): void => {

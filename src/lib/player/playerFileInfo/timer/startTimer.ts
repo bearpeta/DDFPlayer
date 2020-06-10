@@ -1,10 +1,10 @@
 import BackgroundTimer from 'react-native-background-timer';
 import PushNotification from 'react-native-push-notification';
-import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import beautifyTime from 'lib/helpers/beautifyTime';
+import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
+import cancelTimer from './cancelTimer';
 import getDefaultNotification from './notification/defaultNotification';
 import InfoStorage from './notification/InfoStorage';
-import cancelTimer from './cancelTimer';
 
 const getNotificationMessage = (time: string) => {
   return `${getDefaultNotification().message} ${time}`;
@@ -16,7 +16,10 @@ const startTimer = (timeInSec: number) => {
   currentTimerTime = timeInSec;
   const timeInMilliSec: number = timeInSec * 1000;
   const timeoutId: number = BackgroundTimer.setTimeout(() => {
-    TrackPlayManager.stop().then(() => cancelTimer(true));
+    TrackPlayManager.stop().then(() => {
+      TrackPlayManager.destroy();
+      cancelTimer(true);
+    });
   }, timeInMilliSec);
 
   InfoStorage.set('background_timeout_id', timeoutId.toString());

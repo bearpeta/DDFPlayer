@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useRef} from 'react';
-import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
-import {EVENTS} from 'lib/trackplaymanager/events';
 import {convertFromTrackPlayer} from 'lib/audiobooks/convert';
+import {EVENTS} from 'lib/trackplaymanager/events';
+import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import {setPlayingFileType, setIsPlayerOpenType} from './types';
 
 type listeners = {

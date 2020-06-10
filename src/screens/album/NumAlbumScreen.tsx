@@ -1,16 +1,17 @@
 import React, {useCallback, useState, useMemo} from 'react';
 import {NavigationProp, useFocusEffect} from '@react-navigation/native';
-import PlayerModal from 'lib/player/PlayerModal';
-import AlbumList from 'screens/album/list/AlbumList';
-import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import {AudioFile} from 'lib/audiobooks/type';
-import creator from 'screens/album/queue/creator';
+import PlayerModal from 'lib/player/PlayerModal';
+import Setting from 'lib/setting/Setting';
+import {STATES} from 'lib/trackplaymanager/states';
+import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import RootView from 'lib/view/RootView';
+import HeaderRightView from 'navigation/HeaderRightView';
+import AlbumList from 'screens/album/list/AlbumList';
+import creator from 'screens/album/queue/creator';
 import {screenStyles} from 'screens/album/styles';
 import useAlbumPlayer from './hooks/useAlbumPlayer';
-import HeaderRightView from 'navigation/HeaderRightView';
 import NumListAlbumDesc from './num_album/NumListAlbumDesc';
-import Setting from 'lib/setting/Setting';
 
 type sorting = 'desc' | 'asc';
 
@@ -23,6 +24,7 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
     playingFile,
     displayTitle,
     lastSavedPosition,
+    setIsPlayerOpen,
   ] = useAlbumPlayer('numbered');
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,6 +52,12 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
   const _onAlbumPress = useCallback(
     (album: AudioFile): void => {
       if (playingFile !== undefined && album.id() === playingFile!.id()) {
+        TrackPlayManager.getState().then((state) => {
+          if (state !== STATES.PLAYING) {
+            TrackPlayManager.resume();
+          }
+          setIsPlayerOpen(true);
+        });
         return;
       }
 
@@ -61,7 +69,7 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
       });
       TrackPlayManager.playNew(queue);
     },
-    [playingFile, audiobookList],
+    [playingFile, audiobookList, setIsPlayerOpen],
   );
 
   const sortedList = useMemo(() => {

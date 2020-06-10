@@ -1,5 +1,5 @@
-import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import {EVENTS} from 'lib/trackplaymanager/events';
+import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 
 module.exports = async function () {
   await TrackPlayManager.setup();
@@ -16,8 +16,7 @@ module.exports = async function () {
 
   TrackPlayManager.addEventListener(EVENTS.STOP, () => {
     //console.log('BACKGROUND: STOP');
-    TrackPlayManager.stop();
-    //TrackPlayer.destroy();
+    TrackPlayManager.stop().then(() => TrackPlayManager.destroy());
   });
 
   TrackPlayManager.addEventListener(EVENTS.SEEK_TO, (event) => {

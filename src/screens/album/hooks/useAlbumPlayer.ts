@@ -1,14 +1,22 @@
 import {useState, useRef, useEffect} from 'react';
-import {FileList} from '../type';
-import {AudioFile} from 'lib/audiobooks/type';
 import {listTypes} from 'lib/audiobooks/provider/type';
+import {AudioFile} from 'lib/audiobooks/type';
+import {FileList} from '../type';
+import {setIsPlayerOpenType} from './types';
 import useAudiobookProvider from './useAudiobookProvider';
-import useLastPlayedFile from './useLastPlayedFile';
-import useEventListeners from './useEventListener';
 import useDisplayTitle from './useDisplayTitle';
+import useEventListeners from './useEventListener';
 import useHistory from './useHistory';
+import useLastPlayedFile from './useLastPlayedFile';
 
-type returnType = [FileList, boolean, AudioFile | undefined, string, number];
+type returnType = [
+  FileList,
+  boolean,
+  AudioFile | undefined,
+  string,
+  number,
+  setIsPlayerOpenType,
+];
 
 const useAlbumPlayer = (listType: listTypes): returnType => {
   // Normally lastSavedPosition is always 0 since I want to let the choice to the user if they want to jump to a last known position.
@@ -57,6 +65,7 @@ const useAlbumPlayer = (listType: listTypes): returnType => {
     playingFile,
     displayTitle,
     lastSavedPosition,
+    setIsPlayerOpen,
   ];
 };
 

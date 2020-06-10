@@ -1,18 +1,18 @@
 import {useCallback, useEffect} from 'react';
+import {convertFromTrackPlayer} from 'lib/audiobooks/convert';
+import {getCurrentPosition} from 'lib/audiobooks/currentProgress';
 import {AudioFile} from 'lib/audiobooks/type';
+import Setting from 'lib/setting/Setting';
 import {getLastPlayedFile} from 'lib/trackplaymanager/lastPlayed';
+import {STATES} from 'lib/trackplaymanager/states';
 import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
+import creator from '../queue/creator';
+import {FileList} from '../type';
 import {
   setIsPlayerOpenType,
   setPlayingFileType,
   setCurrentPositionType,
 } from './types';
-import {STATES} from 'lib/trackplaymanager/states';
-import {convertFromTrackPlayer} from 'lib/audiobooks/convert';
-import {FileList} from '../type';
-import creator from '../queue/creator';
-import Setting from 'lib/setting/Setting';
-import {getCurrentPosition} from 'lib/audiobooks/currentProgress';
 
 // This hook tries to set the current playing file and the open state of the player by checking
 // if there is a file playing or if there is a last played file set.
