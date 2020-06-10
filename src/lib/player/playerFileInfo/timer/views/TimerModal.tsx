@@ -1,9 +1,9 @@
 import React, {useRef} from 'react';
 import {View, StyleSheet} from 'react-native';
-import TimerPicker from './TimerPicker';
 import DDFButton from 'lib/view/button/DDFButton';
 import DDFModal from 'lib/view/DDFModal';
 import colors from 'res/colors';
+import TimerPicker from './TimerPicker';
 
 type modalProps = {
   isVisible: boolean;

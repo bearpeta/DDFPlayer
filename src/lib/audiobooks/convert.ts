@@ -1,7 +1,7 @@
 import {Track} from 'react-native-track-player';
 import createFromFilePath from './create';
-import {AudioFile} from './type';
 import AudiobookProvider from './provider';
+import {AudioFile} from './type';
 
 const convertForTrackPlayer = (audiobook: AudioFile): Track => {
   // resolving path from file uri has problems if special chars like '?' aren't encoded properly

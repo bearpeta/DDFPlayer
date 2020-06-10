@@ -6,8 +6,9 @@ import {
   StyleSheet,
   ViewStyle,
 } from 'react-native';
-import DDFText from 'lib/view/DDFText';
 import colors from 'res/colors';
+import ArrowDown from 'res/images/arrow_down.svg';
+import ArrowUp from 'res/images/arrow_up.svg';
 
 type pickerProps = {
   style?: ViewStyle;
@@ -40,7 +41,7 @@ const TimeNumberPicker = (props: pickerProps): JSX.Element => {
       <TouchableOpacity
         style={styles.buttonUp}
         onPress={() => setNewCount(count + 1)}>
-        <DDFText>up</DDFText>
+        <ArrowUp width={30} height={30} />
       </TouchableOpacity>
       <TextInput
         onChangeText={(text) => {
@@ -55,7 +56,7 @@ const TimeNumberPicker = (props: pickerProps): JSX.Element => {
       <TouchableOpacity
         style={styles.buttonDown}
         onPress={() => setNewCount(count - 1)}>
-        <DDFText>down</DDFText>
+        <ArrowDown width={30} height={30} />
       </TouchableOpacity>
     </View>
   );
