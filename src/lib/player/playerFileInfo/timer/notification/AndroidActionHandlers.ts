@@ -1,5 +1,5 @@
-import PushNotificationAndroid from 'react-native-push-notification';
 import {DeviceEventEmitter} from 'react-native';
+import PushNotificationAndroid from 'react-native-push-notification';
 import cancelTimer from '../cancelTimer';
 import updateTimer from '../updateTimer';
 

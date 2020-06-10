@@ -18,8 +18,6 @@ export type Provider = {
   setup: () => Promise<Provider>;
   refresh: () => Promise<Provider>;
   get: (type: listTypes) => Promise<list>;
-  getNumbered: () => Promise<list>;
-  getSpecial: () => Promise<list>;
   getById: (id: string) => AudioFile | null;
 };
 

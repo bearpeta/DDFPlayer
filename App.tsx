@@ -1,14 +1,14 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
+import {View} from 'react-native';
 import {PERMISSIONS} from 'react-native-permissions';
 import SplashScreen from 'react-native-splash-screen';
 import AudiobookProvider from 'lib/audiobooks/provider';
-import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import {checkPermissions, requestPermissions} from 'lib/permission/permission';
-import RootNavigation, {navigationRef} from 'navigation/RootNavigation';
 import registerActions from 'lib/player/playerFileInfo/timer/notification/AndroidActionHandlers';
+import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
+import RootNavigation, {navigationRef} from 'navigation/RootNavigation';
 
 const appPermissions = [
   PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
@@ -34,8 +34,7 @@ export default class App extends React.Component<DDFAppProps, DDFAppState> {
   componentDidMount() {
     this._prepareApp()
       .then(() => this.setState({isReady: true}))
-      .catch((error) => {
-        console.log('App PREPARE FAILED: ' + error);
+      .catch((_error) => {
         this.setState({isReady: true});
       });
   }
