@@ -1,19 +1,19 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import {AudioFile} from 'lib/audiobooks/type';
 import {getCurrentPosition} from 'lib/audiobooks/currentProgress';
-import CurrentPositionInfo from './CurrentPositionInfo';
-import DDFText from 'lib/view/DDFText';
-import TimerModal from './timer/views/TimerModal';
-import colors from 'res/colors';
-import startTimer from './timer/startTimer';
-import cancelTimer from './timer/cancelTimer';
-import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import {
   getTimerPosition,
   saveTimerPosition,
 } from 'lib/audiobooks/timerPosition';
+import {AudioFile} from 'lib/audiobooks/type';
+import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
+import DDFText from 'lib/view/DDFText';
+import colors from 'res/colors';
+import CurrentPositionInfo from './CurrentPositionInfo';
+import cancelTimer from './timer/cancelTimer';
 import InfoStorage from './timer/notification/InfoStorage';
+import startTimer from './timer/startTimer';
+import TimerModal from './timer/views/TimerModal';
 
 type infoProps = {
   file?: AudioFile;
@@ -34,7 +34,7 @@ const PlayerFileInfo = (props: infoProps): JSX.Element => {
 
       setShowCancelBtn(true);
     });
-  });
+  }, []);
 
   useEffect(() => {
     if (props.file === undefined) {
@@ -60,6 +60,7 @@ const PlayerFileInfo = (props: infoProps): JSX.Element => {
       cancelTimer().finally(() => startTimer(timerInSec));
       setModalVisibility(false);
       setShowCancelBtn(true);
+      setLastTimerPosition(position);
     });
   };
 
