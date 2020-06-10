@@ -3,10 +3,10 @@ import {View, StyleSheet} from 'react-native';
 import TrackPlayManager, {
   usePlayerProgress,
 } from 'lib/trackplaymanager/TrackPlayManager';
-import {getTouchPanResponder} from './panResponder';
-import ProgressTime from './ProgressTime';
-import ProgressBar from './ProgressBar';
 import {calcProgressViewLength, calcSecondsByPosition} from './calculations';
+import {getTouchPanResponder} from './panResponder';
+import ProgressBar from './ProgressBar';
+import ProgressTime from './ProgressTime';
 
 type progressProps = {
   playingTitle: string;
@@ -127,6 +127,9 @@ const styles = StyleSheet.create({
     height: '70%',
     justifyContent: 'center',
     alignContent: 'center',
+
+    borderWidth: 1,
+    borderColor: 'transparent', // for some reason the PanResponder seems to work better when the container has a border. (Doesn't make sense)
   },
   timeContainer: {
     width: '100%',
