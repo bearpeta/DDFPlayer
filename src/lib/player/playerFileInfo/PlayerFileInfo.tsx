@@ -64,6 +64,22 @@ const PlayerFileInfo = (props: infoProps): JSX.Element => {
     });
   };
 
+  const timerFinishCurrent = () => {
+    if (props.file === undefined) {
+      return;
+    }
+    const fileId = props.file.id();
+    const duration = props.file.duration();
+    TrackPlayManager.getPosition().then((position: number) => {
+      const diff = duration - position;
+      saveTimerPosition(fileId, position);
+      cancelTimer().finally(() => startTimer(diff));
+      setModalVisibility(false);
+      setShowCancelBtn(true);
+      setLastTimerPosition(position);
+    });
+  };
+
   const cancelTimerBtn = useMemo((): JSX.Element => {
     if (!showCancelBtn) {
       return <View />;
@@ -108,7 +124,7 @@ const PlayerFileInfo = (props: infoProps): JSX.Element => {
             setModalVisibility(false);
           }}
           setTimer={beginTimer}
-          setFinishCurrTimer={() => {}}
+          setFinishCurrTimer={timerFinishCurrent}
         />
       </View>
     </View>
