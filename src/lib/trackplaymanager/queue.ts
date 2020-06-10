@@ -1,6 +1,6 @@
 import TrackPlayer from 'react-native-track-player';
-import {AudioFile} from 'lib/audiobooks/type';
 import {convertForTrackPlayer} from 'lib/audiobooks/convert';
+import {AudioFile} from 'lib/audiobooks/type';
 
 type addPosition = 'start' | 'end';
 

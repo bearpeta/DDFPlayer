@@ -1,9 +1,9 @@
 import TrackPlayer from 'react-native-track-player';
-import TrackPlayManager from './TrackPlayManager';
 import {convertFromTrackPlayer} from 'lib/audiobooks/convert';
-import {AudioFile} from 'lib/audiobooks/type';
 import {saveCurrentPosition} from 'lib/audiobooks/currentProgress';
 import AudiobookProvider from 'lib/audiobooks/provider';
+import {AudioFile} from 'lib/audiobooks/type';
+import TrackPlayManager from './TrackPlayManager';
 
 const getPosition = async (): Promise<number> => {
   return TrackPlayer.getPosition();

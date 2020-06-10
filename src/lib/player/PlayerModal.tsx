@@ -1,13 +1,13 @@
 import React, {useEffect, useMemo} from 'react';
 import {Animated, View} from 'react-native';
+import {AudioFile} from 'lib/audiobooks/type';
+import PlayerProgress from 'lib/player/playerProgress/PlayerProgress';
+import animateMove from './animateMove';
 import {ANIMATED, animatedStartPosition} from './constants';
 import {panResponder} from './panResponder';
-import animateMove from './animateMove';
 import PlayerControl from './playerControl/PlayerControl';
-import PlayerProgress from 'lib/player/playerProgress/PlayerProgress';
-import styles from './styles';
-import {AudioFile} from 'lib/audiobooks/type';
 import PlayerFileInfo from './playerFileInfo/PlayerFileInfo';
+import styles from './styles';
 
 type PlayInfo = {
   displayTitle: string;

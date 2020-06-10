@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {AudioFile} from 'lib/audiobooks/type';
 import AudiobookProvider from 'lib/audiobooks/provider';
+import {AudioFile} from 'lib/audiobooks/type';
 
 const storeKey = 'last_payed_file_id';
 

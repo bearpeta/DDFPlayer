@@ -1,13 +1,12 @@
 import TrackPlayer from 'react-native-track-player';
-import setup from './setup';
-import {EVENTS, addEventListener} from './events';
-import {usePlayerEvents, usePlayerProgress} from './hooks';
-import {saveCurrentPos, savePosition, getPosition} from './position';
-import {getQueue, add, skipToPrevious, skipToNext} from './queue';
-import {seekTo, fastForward, fastRewind, forward, goBack} from './movement';
-import {getState} from './states';
 import {AudioFile} from 'lib/audiobooks/type';
-import {saveLastPlayedFileId} from './lastPlayed';
+import {addEventListener, addDefaultListener} from './events';
+import {usePlayerEvents, usePlayerProgress} from './hooks';
+import {seekTo, fastForward, fastRewind, forward, goBack} from './movement';
+import {saveCurrentPos, getPosition} from './position';
+import {getQueue, add, skipToPrevious, skipToNext} from './queue';
+import setup from './setup';
+import {getState} from './states';
 
 // The reason to build these wrapping layers around the ThirdParty-library TrackPlayer is to have an easy way to exchange the TrackPlayer library if needed since changes would just have to happen in this file.
 
@@ -15,7 +14,7 @@ const _pause = async (): Promise<void> => {
   return saveCurrentPos(() => TrackPlayer.pause());
 };
 
-const _play = (): Promise<void> => {
+const _play = async (): Promise<void> => {
   return TrackPlayer.play();
 };
 
@@ -40,52 +39,21 @@ const _getCurrentTrack = async (): Promise<string> => {
   return TrackPlayer.getCurrentTrack();
 };
 
-const _addDefaultListener = (): void => {
-  const trackChangedListener = (event: any): void => {
-    if (event.nextTrack !== null) {
-      saveLastPlayedFileId(event.nextTrack as string);
-    }
-    if (event.track === null) return;
-    savePosition(event.track, event.position);
-  };
-
-  const remoteDuckListener = (event: any): void => {
-    // I want to test if I can ignore permanent, because I cannot control the notification by myself and I don't want the notification to disappear because the playback got interrupted.
-    /*if (event.permanent) {
-      _stop();
-      return;
-    } */
-
-    if (event.paused) {
-      _pause();
-      return;
-    }
-    _play();
-  };
-
-  const queueEndedListener = (event: any): void => {
-    if (event.track === null) return;
-    savePosition(event.track, event.position);
-    saveLastPlayedFileId('0');
-  };
-
-  addEventListener(EVENTS.TRACK_CHANGED, trackChangedListener);
-  addEventListener(EVENTS.INTERRUPTION, remoteDuckListener);
-  addEventListener(EVENTS.QUEUE_ENDED, queueEndedListener);
+const _destroy = async (): Promise<void> => {
+  return TrackPlayer.destroy();
 };
 
 const TrackPlayManager = {
   isInitialized: false,
   setup: async function () {
-    const temp = this.isInitialized;
+    const isInit = this.isInitialized;
     if (!this.isInitialized) this.isInitialized = true;
     setup()
       .then(() => {
-        if (temp) return;
-        _addDefaultListener();
+        if (isInit) return;
+        addDefaultListener();
       })
-      .catch((e) => {
-        console.log(`TrackPlayManager: SETUP FAILED: ${e}`);
+      .catch((_e) => {
         this.isInitialized = false;
       });
   },
@@ -107,6 +75,7 @@ const TrackPlayManager = {
   getTrack: _getTrack,
   getCurrentTrack: _getCurrentTrack,
   addEventListener: addEventListener,
+  destroy: _destroy,
 };
 
 export default TrackPlayManager;

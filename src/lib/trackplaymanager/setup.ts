@@ -1,5 +1,4 @@
 import TrackPlayer from 'react-native-track-player';
-import {ToastAndroid} from 'react-native';
 import Setting from 'lib/setting/Setting';
 import images from 'res/image';
 
@@ -37,20 +36,22 @@ const setup = async (): Promise<void> => {
       // @ts-ignore
       backBuffer: 60,
     });
-
-    await TrackPlayer.updateOptions({
-      jumpInterval: Setting.get('playerJumpInterval'),
-      //@ts-ignore
-      alwaysPauseOnInterruption: true,
-      icon: images.notificationIcon,
-      capabilities: capabilities,
-      notificationCapabilities: notificationCapabilities,
-      compactCapabilities: compactCapabilities,
-    });
+    return updateOptions();
   } catch (e) {
-    ToastAndroid.show('TRACKPLAYER SETUP FAILED', ToastAndroid.LONG);
     return Promise.reject(e);
   }
+};
+
+const updateOptions = async (): Promise<void> => {
+  return TrackPlayer.updateOptions({
+    jumpInterval: Setting.get('playerJumpInterval'),
+    //@ts-ignore
+    alwaysPauseOnInterruption: true,
+    icon: images.notificationIcon,
+    capabilities: capabilities,
+    notificationCapabilities: notificationCapabilities,
+    compactCapabilities: compactCapabilities,
+  });
 };
 
 export default setup;

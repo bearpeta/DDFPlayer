@@ -1,17 +1,16 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Dimensions, ViewStyle} from 'react-native';
-import Play from 'res/images/player/play.svg';
-import Pause from 'res/images/player/pause.svg';
+import {EVENTS} from 'lib/trackplaymanager/events';
+import {usePlayerEvents} from 'lib/trackplaymanager/hooks';
+import {STATES} from 'lib/trackplaymanager/states';
+import FastForward from 'res/images/player/fastForward.svg';
+import FastRewind from 'res/images/player/fastRewind.svg';
 import Forward10Sec from 'res/images/player/forward10Sec.svg';
+import Pause from 'res/images/player/pause.svg';
+import Play from 'res/images/player/play.svg';
 import Replay10Sec from 'res/images/player/replay10Sec.svg';
 import SkipNext from 'res/images/player/skipNext.svg';
 import SkipPrevious from 'res/images/player/skipPrevious.svg';
-import FastForward from 'res/images/player/fastForward.svg';
-import FastRewind from 'res/images/player/fastRewind.svg';
-import {EVENTS} from 'lib/trackplaymanager/events';
-import {STATES} from 'lib/trackplaymanager/states';
-import {usePlayerEvents} from 'lib/trackplaymanager/hooks';
-import ControlButton from './ControlButton';
 import {
   onPlay,
   onPause,
@@ -22,6 +21,7 @@ import {
   onFastForward,
   onFastRewind,
 } from './actions';
+import ControlButton from './ControlButton';
 
 type controlProps = {
   style?: ViewStyle;

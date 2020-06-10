@@ -1,5 +1,8 @@
 // @ts-ignore
 import TrackPlayer, {TrackPlayerEvents} from 'react-native-track-player';
+import {saveLastPlayedFileId} from './lastPlayed';
+import {savePosition} from './position';
+import TrackPlayManager from './TrackPlayManager';
 
 type eventType = {
   [key: string]: TrackPlayer.EventType;
@@ -28,4 +31,38 @@ const addEventListener = (
   return TrackPlayer.addEventListener(event, listener);
 };
 
-export {EVENTS, addEventListener};
+const addDefaultListener = (): void => {
+  const trackChangedListener = (event: any): void => {
+    if (event.nextTrack !== null) {
+      saveLastPlayedFileId(event.nextTrack as string);
+    }
+    if (event.track === null) return;
+    savePosition(event.track, event.position);
+  };
+
+  const remoteDuckListener = (event: any): void => {
+    // I want to test if I can ignore permanent, because I cannot control the notification by myself and I don't want the notification to disappear because the playback got interrupted.
+    /*if (event.permanent) {
+      _stop();
+      return;
+    } */
+
+    if (event.paused) {
+      TrackPlayManager.pause();
+      return;
+    }
+    TrackPlayManager.resume();
+  };
+
+  const queueEndedListener = (event: any): void => {
+    if (event.track === null) return;
+    savePosition(event.track, event.position);
+    saveLastPlayedFileId('0');
+  };
+
+  addEventListener(EVENTS.TRACK_CHANGED, trackChangedListener);
+  addEventListener(EVENTS.INTERRUPTION, remoteDuckListener);
+  addEventListener(EVENTS.QUEUE_ENDED, queueEndedListener);
+};
+
+export {EVENTS, addEventListener, addDefaultListener};
