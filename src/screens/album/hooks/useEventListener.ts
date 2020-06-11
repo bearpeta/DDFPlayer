@@ -1,7 +1,9 @@
-import {useCallback, useEffect, useRef} from 'react';
+import {useCallback, useRef} from 'react';
 import {convertFromTrackPlayer} from 'lib/audiobooks/convert';
 import {EVENTS} from 'lib/trackplaymanager/events';
-import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
+import TrackPlayManager, {
+  usePlayerEvents,
+} from 'lib/trackplaymanager/TrackPlayManager';
 import {setPlayingFileType, setIsPlayerOpenType} from './types';
 
 type listeners = {
@@ -22,27 +24,33 @@ const useEventListeners = (eventListener: listeners) => {
     [eventListener],
   );
 
-  useEffect((): void => {
-    TrackPlayManager.addEventListener(EVENTS.PLAY, (_event: any) => {
-      eventListener.keepPlayerOpen(true);
-    });
-
-    TrackPlayManager.addEventListener(EVENTS.STOP, (_event: any) => {
-      eventListener.keepPlayerOpen(false);
-    });
-
-    TrackPlayManager.addEventListener(EVENTS.TRACK_CHANGED, (event: any) => {
-      if (event.nextTrack === null) {
+  usePlayerEvents(
+    [EVENTS.PLAY, EVENTS.STOP, EVENTS.TRACK_CHANGED],
+    (event: any) => {
+      if (event.type === EVENTS.PLAY) {
+        eventListener.keepPlayerOpen(true);
         return;
       }
-      eventListener.keepPlayerOpen(true);
-      const nextId: string = event.nextTrack;
 
-      if (playingId.current === nextId) return;
-      playingId.current = nextId;
-      setPlayingFileFromTrackPlayer(nextId);
-    });
-  }, [eventListener, setPlayingFileFromTrackPlayer]);
+      if (event.type === EVENTS.STOP) {
+        eventListener.keepPlayerOpen(false);
+        return;
+      }
+
+      if (event.type === EVENTS.TRACK_CHANGED) {
+        if (event.nextTrack === null) {
+          return;
+        }
+        eventListener.keepPlayerOpen(true);
+        const nextId: string = event.nextTrack;
+
+        if (playingId.current === nextId) return;
+        playingId.current = nextId;
+        setPlayingFileFromTrackPlayer(nextId);
+        return;
+      }
+    },
+  );
 };
 
 export default useEventListeners;

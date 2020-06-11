@@ -1,6 +1,6 @@
+import {useEffect} from 'react';
 import {AudioFile} from 'lib/audiobooks/type';
 import {setDisplayTitleType} from './types';
-import {useEffect} from 'react';
 
 // This hook sets the title which should be shown in the player modal.
 const useDisplayTitle = (

@@ -1,13 +1,17 @@
 import {useState, useRef, useEffect} from 'react';
+import {getCurrentPosition} from 'lib/audiobooks/currentProgress';
 import {listTypes} from 'lib/audiobooks/provider/type';
 import {AudioFile} from 'lib/audiobooks/type';
+import Setting from 'lib/setting/Setting';
+import {getLastPlayedFile} from 'lib/trackplaymanager/lastPlayed';
+import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
+import creator from '../queue/creator';
 import {FileList} from '../type';
-import {setIsPlayerOpenType} from './types';
+import {setIsPlayerOpenType, setListType} from './types';
 import useAudiobookProvider from './useAudiobookProvider';
 import useDisplayTitle from './useDisplayTitle';
 import useEventListeners from './useEventListener';
 import useHistory from './useHistory';
-import useLastPlayedFile from './useLastPlayedFile';
 
 type returnType = [
   FileList,
@@ -16,6 +20,7 @@ type returnType = [
   string,
   number,
   setIsPlayerOpenType,
+  setListType,
 ];
 
 const useAlbumPlayer = (listType: listTypes): returnType => {
@@ -31,6 +36,42 @@ const useAlbumPlayer = (listType: listTypes): returnType => {
   const [displayTitle, setDisplayTitle] = useState<string>('');
   // lastSavedPosition will always be 0 unless when the app starts and there is a last played file.
   const [lastSavedPosition, setLastSavedPosition] = useState(0);
+
+  // Used when the app starts to load the last played file
+  useEffect(() => {
+    if (previousFile.current !== undefined) return;
+
+    getLastPlayedFile().then((file) => {
+      if (file === null) return;
+
+      // the last played file should just be used by the view if it is of the same type ('numbered' | 'special)
+      const isSameType: number = Object.keys(audiobookList).findIndex(
+        (id: string) => id === file.id(),
+      );
+
+      if (isSameType === -1) {
+        return;
+      }
+
+      const queue: AudioFile[] = creator({
+        firstId: file.id(),
+        files: Object.values(audiobookList),
+        size: Setting.get('queueSize'),
+        variant: Setting.get('queuePicking'),
+      });
+
+      if (queue.length < 1) return;
+      TrackPlayManager.addQueue({files: queue, replace: true});
+
+      setIsPlayerOpen(true);
+      setPlayingFile(file);
+      // If there is no playing file and I load the last played one, it makes sense to jump also to the last known position.eee
+      getCurrentPosition(file).then((position: number) => {
+        TrackPlayManager.seekTo(position);
+        setLastSavedPosition(position);
+      });
+    });
+  }, [audiobookList]);
 
   useEffect(() => {
     if (playingFile === undefined) return;
@@ -51,12 +92,7 @@ const useAlbumPlayer = (listType: listTypes): returnType => {
   });
 
   useAudiobookProvider(listType, setAudiobookList);
-  useLastPlayedFile(
-    audiobookList,
-    setIsPlayerOpen,
-    setPlayingFile,
-    setLastSavedPosition,
-  );
+
   useHistory(listType);
 
   return [
@@ -66,6 +102,7 @@ const useAlbumPlayer = (listType: listTypes): returnType => {
     displayTitle,
     lastSavedPosition,
     setIsPlayerOpen,
+    setAudiobookList,
   ];
 };
 

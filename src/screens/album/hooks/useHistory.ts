@@ -1,11 +1,11 @@
 import {useRef, MutableRefObject, useEffect} from 'react';
 import BackgroundTimer from 'react-native-background-timer';
-import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
-import {EVENTS} from 'lib/trackplaymanager/events';
-import {addHistory} from 'lib/history';
 import {listTypes} from 'lib/audiobooks/provider/type';
+import {addHistory} from 'lib/history';
+import {EVENTS} from 'lib/trackplaymanager/events';
+import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 
-const timeout = 5000; // 2 minutes in milliseconds    120000
+const timeout = 120000; // 2 minutes in milliseconds
 
 const useHistory = (type: listTypes) => {
   const appJustStarted = useRef(true);
