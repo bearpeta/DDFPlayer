@@ -32,7 +32,7 @@ const add = async (options: addOptions) => {
 
   const tracks = await getQueue();
   let beforeId: string | undefined;
-  if (tracks.length >= 1 && position) {
+  if (tracks.length >= 1 && position === 'start') {
     beforeId = tracks[0].id;
   }
   return _addToQueue(options.files, beforeId);
