@@ -16,6 +16,7 @@ import creator from 'screens/album/queue/creator';
 import {screenStyles} from 'screens/album/styles';
 import SpecialFilesModal from './extend_modal/SpecialFilesModal';
 import useAlbumPlayer from './hooks/useAlbumPlayer';
+import refreshList from './refreshList';
 
 type merged = {
   [key: number]: AudioFile;
@@ -38,6 +39,7 @@ const SpecialAlbumScreen = ({
     displayTitle,
     lastSavedPosition,
     setIsPlayerOpen,
+    setAudiobookList,
   ] = useAlbumPlayer('special');
 
   useEffect(() => {
@@ -189,6 +191,7 @@ const SpecialAlbumScreen = ({
       <AlbumList
         list={mergedSameAlbums}
         keyExtractor={(albumItems: merged) => albumItems[1].album()}
+        onRefresh={() => refreshList('special', setAudiobookList)}
         onItemPress={(albumItems: merged) => _onAlbumPress(albumItems)}
         itemDescription={(albumItems: merged) => {
           return (

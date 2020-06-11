@@ -14,7 +14,7 @@ const createFromFilePath = async (filePath: string): Promise<AudioFile> => {
     track: string;
   };
 
-  const file: GeneralAudioFile = _createGeneralFile(filePath, '', '');
+  const file: GeneralAudioFile = createGeneralFile(filePath, '', '');
   const filenameMeta: metaFromFilename = _getMetaFromFilename(file.filename());
 
   file._album = filenameMeta.album;
@@ -52,15 +52,9 @@ const createFromFilePath = async (filePath: string): Promise<AudioFile> => {
 };
 
 const _setId = (file: GeneralAudioFile): AudioFile => {
-  if (file.isNumbered()) {
-    return {
-      id: () => file.trackNumber().toString(),
-      ...file,
-    };
-  }
-
+  const id = `${file.album()}${file.title()}${file.trackNumber()}`;
   return {
-    id: () => file.filePath(),
+    id: () => id,
     ...file,
   };
 };
@@ -103,7 +97,7 @@ const _getMetaFromFilename = (filename: string): metaFromFilename => {
   return {album, trackName, trackNumber};
 };
 
-const _createGeneralFile = (
+const createGeneralFile = (
   filePath: string,
   album: string,
   title: string,
@@ -187,4 +181,5 @@ const _isNumbered = (filename: string) => {
   return !isNaN(_getFirstPartAsNumber(filename));
 };
 
+export {createGeneralFile};
 export default createFromFilePath;

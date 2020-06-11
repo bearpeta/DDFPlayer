@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import EmptyListView from '../../../lib/view/EmptyListView';
 import AlbumListItem from './AlbumListItem';
@@ -7,13 +7,20 @@ type albumListProps = {
   list: any[];
   keyExtractor: (item: any, index: number) => string;
   onItemPress: (item: any) => void;
+  onRefresh: () => Promise<void>;
   itemDescription: (item: any) => JSX.Element;
 };
 
 const AlbumList = (props: albumListProps) => {
+  const [isRefreshing, setRefreshing] = useState(false);
   return (
     <FlatList
       style={styles.albumList}
+      refreshing={isRefreshing}
+      onRefresh={() => {
+        setRefreshing(true);
+        props.onRefresh().finally(() => setRefreshing(false));
+      }}
       data={props.list}
       extraData={props.list}
       keyExtractor={props.keyExtractor}
@@ -31,6 +38,7 @@ const AlbumList = (props: albumListProps) => {
             if (item.hasOwnProperty('1')) {
               file = item['1'];
             }
+
             return file.image();
           })()}
           listIndex={index}

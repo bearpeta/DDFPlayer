@@ -1,8 +1,8 @@
 import React, {FunctionComponent} from 'react';
 import {View, StyleSheet} from 'react-native';
+import {AudioFile} from 'lib/audiobooks/type';
 import DDFText from 'lib/view/DDFText';
 import colors from 'res/colors';
-import {AudioFile} from 'lib/audiobooks/type';
 
 type itemProps = {
   albumItem: AudioFile;
@@ -14,7 +14,7 @@ const NumListAlbumDesc: FunctionComponent<itemProps> = (
     <View style={styles.itemDescriptionContainer}>
       <View style={styles.numberCircle}>
         <DDFText style={styles.itemAlbumNumberText} numberOfLines={1}>
-          {props.albumItem.id()}
+          {props.albumItem.trackNumber()}
         </DDFText>
       </View>
       <DDFText

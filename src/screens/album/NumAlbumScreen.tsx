@@ -12,6 +12,7 @@ import creator from 'screens/album/queue/creator';
 import {screenStyles} from 'screens/album/styles';
 import useAlbumPlayer from './hooks/useAlbumPlayer';
 import NumListAlbumDesc from './num_album/NumListAlbumDesc';
+import refreshList from './refreshList';
 
 type sorting = 'desc' | 'asc';
 
@@ -25,6 +26,7 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
     displayTitle,
     lastSavedPosition,
     setIsPlayerOpen,
+    setAudiobookList,
   ] = useAlbumPlayer('numbered');
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,6 +88,7 @@ const NumbAlbumScreen = ({navigation}: {navigation: NavigationProp<any>}) => {
       <AlbumList
         list={sortedList}
         keyExtractor={(item: AudioFile) => item.id()}
+        onRefresh={() => refreshList('numbered', setAudiobookList)}
         onItemPress={(albumItem: AudioFile) => _onAlbumPress(albumItem)}
         itemDescription={(albumItem: AudioFile) => (
           <NumListAlbumDesc albumItem={albumItem} />

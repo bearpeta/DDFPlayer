@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import {View, TouchableOpacity, StyleSheet, ViewStyle} from 'react-native';
-import colors from 'res/colors';
 import DDFImage from 'lib/view/image/DDFImage';
+import colors from 'res/colors';
 
 type listItemType = {
   listIndex: number;
