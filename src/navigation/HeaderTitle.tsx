@@ -1,8 +1,8 @@
 import React, {useMemo} from 'react';
 import {StackHeaderTitleProps} from '@react-navigation/stack';
 import {View, StyleSheet} from 'react-native';
-import colors from 'res/colors';
 import DDFText from 'lib/view/DDFText';
+import colors from 'res/colors';
 
 const HeaderTitle = (props: StackHeaderTitleProps): JSX.Element => {
   const color = useMemo(() => ({color: props.tintColor ?? colors.white}), [

@@ -1,5 +1,5 @@
-import colors from 'res/colors';
 import {PushNotificationObject} from 'react-native-push-notification';
+import colors from 'res/colors';
 import {actionAddTime, actionCancelTimer} from './AndroidActionHandlers';
 
 export const defaultNotificationId: string = '1234567890';

@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import {getCurrentPosition} from 'lib/audiobooks/currentProgress';
+import {getCurrentPosition} from 'lib/audiobooks/currentPosition';
 import {
   getTimerPosition,
   saveTimerPosition,
@@ -9,7 +9,7 @@ import {AudioFile} from 'lib/audiobooks/type';
 import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import DDFText from 'lib/view/DDFText';
 import colors from 'res/colors';
-import CurrentPositionInfo from './CurrentPositionInfo';
+import PositionInfo from './PositionInfo';
 import cancelTimer from './timer/cancelTimer';
 import InfoStorage from './timer/notification/InfoStorage';
 import startTimer from './timer/startTimer';
@@ -100,12 +100,12 @@ const PlayerFileInfo = (props: infoProps): JSX.Element => {
   return (
     <View style={styles.content}>
       <View style={styles.positionContainer}>
-        <CurrentPositionInfo
+        <PositionInfo
           pos={currentPosition}
           labelText={'Last saved position'}
           onPress={() => TrackPlayManager.seekTo(currentPosition)}
         />
-        <CurrentPositionInfo
+        <PositionInfo
           pos={lastTimerPosition}
           labelText={'Timer started at'}
           onPress={() => TrackPlayManager.seekTo(lastTimerPosition)}

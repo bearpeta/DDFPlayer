@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {View, StyleSheet, ViewStyle} from 'react-native';
-import TimeNumberPicker from './TimeNumberPicker';
 import DDFText from 'lib/view/DDFText';
+import TimeNumberPicker from './TimeNumberPicker';
 
 type pickerProps = {
   style?: ViewStyle;
@@ -18,15 +18,63 @@ const TimerPicker = (props: pickerProps): JSX.Element => {
     props.onChange(hoursInSec + minutesInSec + seconds);
   }, [hours, minutes, seconds, props]);
 
+  const onHourChange = useCallback(
+    (newCount: number): void => setHours(newCount),
+    [setHours],
+  );
+
+  const onMinuteChange = useCallback(
+    (oldCount: number, newCount: number): void => {
+      let currentHour = hours;
+
+      if (oldCount === 59 && newCount === 0) {
+        currentHour++;
+      } else if (oldCount === 0 && newCount === 59 && hours > 0) {
+        currentHour--;
+      }
+      setHours(currentHour);
+      setMinutes(newCount);
+    },
+    [setHours, setMinutes, hours],
+  );
+
+  const onSecondChange = useCallback(
+    (oldCount: number, newCount: number): void => {
+      let currentHour = hours;
+      let currentMinute = minutes;
+
+      if (oldCount === 59 && newCount === 0) {
+        currentMinute++;
+      } else if (oldCount === 0 && newCount === 59) {
+        currentMinute--;
+      }
+
+      if (currentMinute >= 60) {
+        currentHour++;
+        currentMinute = 0;
+      } else if (currentMinute < 0) {
+        if (currentHour > 0) {
+          currentHour--;
+          currentMinute = 59;
+        } else {
+          currentMinute = 0;
+        }
+      }
+
+      setHours(currentHour);
+      setMinutes(currentMinute);
+      setSeconds(newCount);
+    },
+    [setHours, setMinutes, hours, minutes],
+  );
+
   return (
     <View style={[styles.container, props.style]}>
       <View style={styles.unitContainer}>
         <TimeNumberPicker
           setNumber={hours}
           style={styles.picker}
-          onChange={(_oldCount, newCount) => {
-            setHours(newCount);
-          }}
+          onChange={(_oldCount, newCount) => onHourChange(newCount)}
         />
         <DDFText style={styles.pickerDesc}>Hours</DDFText>
       </View>
@@ -34,17 +82,7 @@ const TimerPicker = (props: pickerProps): JSX.Element => {
         <TimeNumberPicker
           setNumber={minutes}
           style={styles.picker}
-          onChange={(oldCount, newCount) => {
-            let currentHour = hours;
-
-            if (oldCount === 59 && newCount === 0) {
-              currentHour++;
-            } else if (oldCount === 0 && newCount === 59 && hours > 0) {
-              currentHour--;
-            }
-            setHours(currentHour);
-            setMinutes(newCount);
-          }}
+          onChange={onMinuteChange}
         />
         <DDFText style={styles.pickerDesc}>Min</DDFText>
       </View>
@@ -52,32 +90,7 @@ const TimerPicker = (props: pickerProps): JSX.Element => {
         <TimeNumberPicker
           setNumber={seconds}
           style={styles.picker}
-          onChange={(oldCount, newCount) => {
-            let currentHour = hours;
-            let currentMinute = minutes;
-
-            if (oldCount === 59 && newCount === 0) {
-              currentMinute++;
-            } else if (oldCount === 0 && newCount === 59) {
-              currentMinute--;
-            }
-
-            if (currentMinute >= 60) {
-              currentHour++;
-              currentMinute = 0;
-            } else if (currentMinute < 0) {
-              if (currentHour > 0) {
-                currentHour--;
-                currentMinute = 59;
-              } else {
-                currentMinute = 0;
-              }
-            }
-
-            setHours(currentHour);
-            setMinutes(currentMinute);
-            setSeconds(newCount);
-          }}
+          onChange={onSecondChange}
         />
         <DDFText style={styles.pickerDesc}>Sec</DDFText>
       </View>

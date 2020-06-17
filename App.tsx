@@ -5,7 +5,7 @@ import {View} from 'react-native';
 import {PERMISSIONS} from 'react-native-permissions';
 import SplashScreen from 'react-native-splash-screen';
 import AudiobookProvider from 'lib/audiobooks/provider';
-import {checkPermissions, requestPermissions} from 'lib/permission/permission';
+import {checkPermissions, requestPermissions} from 'lib/permission';
 import registerActions from 'lib/player/playerFileInfo/timer/notification/AndroidActionHandlers';
 import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import RootNavigation, {navigationRef} from 'navigation/RootNavigation';

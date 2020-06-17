@@ -1,9 +1,10 @@
 import React, {useMemo, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
-import beautifyTime from 'lib/helpers/beautifyTime';
-import colors from 'res/colors';
-import DDFText from 'lib/view/DDFText';
 import TextTicker from 'react-native-text-ticker';
+import beautifyTime from 'lib/helpers/beautifyTime';
+import DDFText from 'lib/view/DDFText';
+import colors from 'res/colors';
+
 type timeProps = {
   currentSecond: number;
   duration: number;
@@ -73,27 +74,19 @@ const styles = StyleSheet.create({
     fontSize: 12,
     height: '100%',
     minWidth: '20%',
-    // borderWidth: 1,
-    //  borderColor: 'white',
   },
   marqueeContainer: {
     width: '60%',
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    //borderWidth: 1,
-    // borderColor: 'white',
   },
   title: {
-    //marginTop: 0,
-    //width: '100%',
     fontSize: 11,
     flex: 1,
     color: colors.primaryLightest,
     textAlignVertical: 'center',
     textAlign: 'center',
-    //borderWidth: 1,
-    //borderColor: 'white',
   },
   durationInfo: {
     textAlign: 'right',

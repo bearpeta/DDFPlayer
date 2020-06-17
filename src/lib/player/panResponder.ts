@@ -3,8 +3,8 @@ import {
   PanResponderGestureState,
   GestureResponderEvent,
 } from 'react-native';
-import {ANIMATED, HEIGHTS, animatedStartPosition} from './constants';
 import animateMove from './animateMove';
+import {ANIMATED, HEIGHTS, animatedStartPosition} from './constants';
 
 const movementValue = (gestureState: PanResponderGestureState) => {
   return HEIGHTS.PARENT_VIEW - gestureState.moveY;

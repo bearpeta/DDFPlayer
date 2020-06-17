@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useCallback} from 'react';
 import {Animated, View, StyleSheet, LayoutChangeEvent} from 'react-native';
+import DDFText from 'lib/view/DDFText';
 import colors from 'res/colors';
 import {elevationStyle} from 'res/styles';
-import DDFText from 'lib/view/DDFText';
 
 type BarProps = {
   onLayout: (event: LayoutChangeEvent) => void;

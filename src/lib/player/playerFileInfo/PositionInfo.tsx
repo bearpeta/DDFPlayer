@@ -1,15 +1,15 @@
 import React, {useMemo} from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import beautifyTime from 'lib/helpers/beautifyTime';
-import colors from 'res/colors';
 import DDFText from 'lib/view/DDFText';
+import colors from 'res/colors';
 
 type infoProps = {
   pos: number;
   labelText: string;
   onPress: () => void;
 };
-const CurrentPositionInfo = (props: infoProps): JSX.Element => {
+const PositionInfo = (props: infoProps): JSX.Element => {
   const currentTime: string = useMemo(() => beautifyTime(props.pos), [
     props.pos,
   ]);
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CurrentPositionInfo;
+export default PositionInfo;

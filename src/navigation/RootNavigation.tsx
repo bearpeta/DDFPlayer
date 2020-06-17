@@ -1,11 +1,11 @@
 import React from 'react';
 import {NavigationContainerRef} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import AlbumTabs from 'navigation/AlbumTabs';
-import SettingScreen from 'screens/setting/SettingScreen';
 import colors from 'res/colors';
-import HeaderTitle from './HeaderTitle';
+import AlbumTabs from 'navigation/AlbumTabs';
 import HistoryScreen from 'screens/history/HistoryScreen';
+import SettingScreen from 'screens/setting/SettingScreen';
+import HeaderTitle from './HeaderTitle';
 
 export const navigationRef = React.createRef<NavigationContainerRef>();
 

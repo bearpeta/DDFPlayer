@@ -1,9 +1,9 @@
+import {Permission} from 'react-native';
 import {
   checkMultiple,
   RESULTS,
   requestMultiple,
 } from 'react-native-permissions';
-import {Permission} from 'react-native';
 
 interface Resp {
   denied: Permission[];

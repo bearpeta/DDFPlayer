@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import {View, StyleSheet, Dimensions, ViewStyle} from 'react-native';
 import {EVENTS} from 'lib/trackplaymanager/events';
 import {usePlayerEvents} from 'lib/trackplaymanager/hooks';
@@ -36,13 +36,31 @@ const buttonWide = (deviceWidth - 2 * paddingButtonRow) / amountBtn;
 const PlayerControl = (props: controlProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
+  const playPauseView = useMemo((): JSX.Element => {
+    if (isPlaying) {
+      return (
+        <ControlButton
+          onPress={onPause}
+          image={<Pause width={buttonWide} height={buttonWide} />}
+        />
+      );
+    }
+
+    return (
+      <ControlButton
+        onPress={onPlay}
+        image={<Play width={buttonWide} height={buttonWide} />}
+      />
+    );
+  }, [isPlaying]);
+
   usePlayerEvents([EVENTS.CHANGE_PLAYBACK_STATE], (event: any) => {
     /*
       // Just gets fired when the "play"/"pause/stop" button in the notification bar or lock screen get pressed
       if ([EVENTS.PLAY, EVENTS.PAUSE, EVENTS.STOP].includes(event.type)) {
         setIsPlaying(event.type === EVENTS.PLAY);
       }
- */
+    */
     if (event.type === EVENTS.CHANGE_PLAYBACK_STATE) {
       setIsPlaying(event.state === STATES.PLAYING);
     }
@@ -61,7 +79,7 @@ const PlayerControl = (props: controlProps) => {
         onPress={onReplayTenSecond}
         image={<Replay10Sec width={buttonWide} height={buttonWide} />}
       />
-      {getPlayPauseView(isPlaying)}
+      {playPauseView}
       <ControlButton
         onPress={onForwardTenSec}
         image={<Forward10Sec width={buttonWide} height={buttonWide} />}
@@ -78,31 +96,10 @@ const PlayerControl = (props: controlProps) => {
   );
 };
 
-const getPlayPauseView = (isPlaying: boolean): JSX.Element => {
-  if (isPlaying) {
-    return (
-      <ControlButton
-        onPress={onPause}
-        image={<Pause width={buttonWide} height={buttonWide} />}
-      />
-    );
-  }
-
-  return (
-    <ControlButton
-      onPress={onPlay}
-      image={<Play width={buttonWide} height={buttonWide} />}
-    />
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    //borderWidth: 2,
-    //borderColor: 'yellow',
-    //backgroundColor: colors.primary,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

@@ -1,6 +1,6 @@
 import TrackPlayer from 'react-native-track-player';
 import {convertFromTrackPlayer} from 'lib/audiobooks/convert';
-import {saveCurrentPosition} from 'lib/audiobooks/currentProgress';
+import {saveCurrentPosition} from 'lib/audiobooks/currentPosition';
 import AudiobookProvider from 'lib/audiobooks/provider';
 import {AudioFile} from 'lib/audiobooks/type';
 import TrackPlayManager from './TrackPlayManager';

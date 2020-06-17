@@ -1,8 +1,8 @@
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import colors from 'res/colors';
-import SpecialAlbumScreen from 'screens/album/SpecialAlbumScreen';
 import NumbAlbumScreen from 'screens/album/NumAlbumScreen';
+import SpecialAlbumScreen from 'screens/album/SpecialAlbumScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -14,9 +14,6 @@ const AlbumTabs = (): JSX.Element => {
         activeTintColor: colors.blue,
         pressColor: colors.primaryLight,
         inactiveTintColor: colors.primaryLightest,
-        labelStyle: {
-          //fontSize: 11,
-        },
         indicatorStyle: {
           backgroundColor: colors.red,
         },

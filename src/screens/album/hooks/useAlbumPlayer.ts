@@ -1,5 +1,5 @@
 import {useState, useRef, useEffect} from 'react';
-import {getCurrentPosition} from 'lib/audiobooks/currentProgress';
+import {getCurrentPosition} from 'lib/audiobooks/currentPosition';
 import {listTypes} from 'lib/audiobooks/provider/type';
 import {AudioFile} from 'lib/audiobooks/type';
 import Setting from 'lib/setting/Setting';

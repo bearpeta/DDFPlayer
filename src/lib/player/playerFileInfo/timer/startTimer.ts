@@ -5,6 +5,7 @@ import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import cancelTimer from './cancelTimer';
 import getDefaultNotification from './notification/defaultNotification';
 import InfoStorage from './notification/InfoStorage';
+import {intervalKey, timeoutKey} from './type';
 
 const getNotificationMessage = (time: string) => {
   return `${getDefaultNotification().message} ${time}`;
@@ -22,7 +23,7 @@ const startTimer = (timeInSec: number) => {
     });
   }, timeInMilliSec);
 
-  InfoStorage.set('background_timeout_id', timeoutId.toString());
+  InfoStorage.set(timeoutKey, timeoutId.toString());
 
   const beautyTime = beautifyTime(currentTimerTime);
 
@@ -38,7 +39,7 @@ const startTimer = (timeInSec: number) => {
     );
     PushNotification.localNotification(newNotification);
   }, 1000);
-  InfoStorage.set('background_interval_id', intervalId.toString());
+  InfoStorage.set(intervalKey, intervalId.toString());
 };
 
 export default startTimer;

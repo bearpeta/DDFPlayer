@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import HistoryIcon from 'res/images/history_icon.svg';
 import SettingsIcon from 'res/images/settings_icon.svg';
 import SortIcon from 'res/images/sort_icon.svg';
-import HistoryIcon from 'res/images/history_icon.svg';
 
 type viewProps = {
   onSortPress?: () => void;

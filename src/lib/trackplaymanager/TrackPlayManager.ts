@@ -25,7 +25,7 @@ const _stop = async (): Promise<void> => {
 const _playNew = async (audiobooks: AudioFile[]): Promise<void> => {
   await saveCurrentPos();
   await add({files: audiobooks, replace: true});
-  // We don't automatically go to the current position anymore (see PlayerFileInfo.tsx)
+  // I don't automatically go to the current position anymore (see PlayerFileInfo.tsx)
   //const position = await getCurrentPosition(audiobooks[0]);
   // await TrackPlayer.seekTo(position);
   return _play();

@@ -16,14 +16,12 @@ const getTouchPanResponder = ({
   onRelease,
   onTerminate,
 }: touchActions) => {
-  // The PanRespond
   return PanResponder.create({
     onPanResponderTerminationRequest: (_evt, _gestureState) => false,
     onStartShouldSetPanResponder: (_evt, _gestureState) => {
       return true;
     },
     onMoveShouldSetPanResponder: (_evt, _gestureState) => {
-      //const shouldMove = gestureState.dx >= 10 || gestureState.dx <= -10;
       return false;
     },
     onStartShouldSetPanResponderCapture: (_evt, _gestureState) => true,

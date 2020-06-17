@@ -1,6 +1,6 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import {ExternalStorageDirectoryPath} from 'react-native-fs';
 import {SettingOptions, SettingType, SettingOptionKeys} from './types';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const storagePrefix: string = 'Settings_';
 
