@@ -1,10 +1,10 @@
 import React, {useMemo, useCallback} from 'react';
 import {View, StyleSheet} from 'react-native';
-import colors from 'res/colors';
-import DDFImage from 'lib/view/image/DDFImage';
-import DDFText from 'lib/view/DDFText';
 import AudiobookProvider from 'lib/audiobooks/provider';
 import {HistoryEntry} from 'lib/history/type';
+import DDFText from 'lib/view/DDFText';
+import DDFImage from 'lib/view/image/DDFImage';
+import colors from 'res/colors';
 
 type listItemType = {
   item: HistoryEntry;
@@ -35,14 +35,14 @@ const HistoryListItem = (props: listItemType) => {
   if (file !== null) {
     content = (
       <View style={styles.subContainer}>
+        <View style={styles.imageContainer}>
+          <DDFImage source={file.image()} resizeMode="contain" />
+        </View>
         <View style={styles.textContainer}>
           <DDFText>{file.title()}</DDFText>
           <DDFText style={styles.itemTimeText}>{`Added at: ${timeBeautifier(
             item.date,
           )}`}</DDFText>
-        </View>
-        <View style={styles.imageContainer}>
-          <DDFImage source={file.image()} resizeMode="contain" />
         </View>
       </View>
     );

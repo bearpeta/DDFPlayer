@@ -1,9 +1,9 @@
 import React, {FunctionComponent, useState, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
-import RootView from 'lib/view/RootView';
 import {getHistory} from 'lib/history';
-import {historySectionData} from './list/type';
+import RootView from 'lib/view/RootView';
 import HistoryList from './list/HistoryList';
+import {historySectionData} from './list/type';
 
 type SettingProps = {};
 

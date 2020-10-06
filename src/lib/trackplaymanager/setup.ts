@@ -36,13 +36,13 @@ const setup = async (): Promise<void> => {
       // @ts-ignore
       backBuffer: 60,
     });
-    return updateOptions();
+    return _updateOptions();
   } catch (e) {
     return Promise.reject(e);
   }
 };
 
-const updateOptions = async (): Promise<void> => {
+const _updateOptions = async (): Promise<void> => {
   return TrackPlayer.updateOptions({
     jumpInterval: Setting.get('playerJumpInterval'),
     //@ts-ignore

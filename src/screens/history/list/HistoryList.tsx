@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, SectionList, View} from 'react-native';
-import colors from 'res/colors';
 import DDFText from 'lib/view/DDFText';
+import colors from 'res/colors';
 import HistoryListItem from './HistoryListItem';
 import {historySectionData} from './type';
 

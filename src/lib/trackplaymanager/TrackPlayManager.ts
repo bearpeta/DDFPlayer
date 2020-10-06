@@ -1,7 +1,9 @@
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, {Track, TrackMetadata} from 'react-native-track-player';
+import AudiobookProvider from 'lib/audiobooks/provider';
 import {AudioFile} from 'lib/audiobooks/type';
 import {addEventListener, addDefaultListener} from './events';
 import {usePlayerEvents, usePlayerProgress} from './hooks';
+import {loadLastPlayed} from './lastPlayed';
 import {seekTo, fastForward, fastRewind, forward, goBack} from './movement';
 import {saveCurrentPos, getPosition} from './position';
 import {getQueue, add, skipToPrevious, skipToNext} from './queue';
@@ -39,6 +41,19 @@ const _getCurrentTrack = async (): Promise<string> => {
   return TrackPlayer.getCurrentTrack();
 };
 
+const _updateMeta = async (id: string) => {
+  const file = AudiobookProvider.getById(id);
+  if (file === null) return;
+  // for some reason "updateMetadataForTrack" expects 'title' and 'artist'
+  const metaInfo: TrackMetadata = {
+    title: file.title(),
+    artist: file.author(),
+    artwork: file.image(),
+    duration: file.duration(),
+  };
+  return TrackPlayer.updateMetadataForTrack(id, metaInfo);
+};
+
 const _destroy = async (): Promise<void> => {
   return TrackPlayer.destroy();
 };
@@ -52,6 +67,7 @@ const TrackPlayManager = {
       .then(() => {
         if (isInit) return;
         addDefaultListener();
+        loadLastPlayed();
       })
       .catch((_e) => {
         this.isInitialized = false;
@@ -75,7 +91,11 @@ const TrackPlayManager = {
   getTrack: _getTrack,
   getCurrentTrack: _getCurrentTrack,
   addEventListener: addEventListener,
-  destroy: _destroy,
+  updateMetadata: _updateMeta,
+  destroy: async function () {
+    this.isInitialized = false;
+    _destroy();
+  },
 };
 
 export default TrackPlayManager;
