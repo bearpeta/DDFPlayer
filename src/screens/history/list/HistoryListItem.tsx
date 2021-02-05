@@ -1,7 +1,9 @@
 import React, {useMemo, useCallback} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import AudiobookProvider from 'lib/audiobooks/provider';
+import {AudioFile} from 'lib/audiobooks/type';
 import {HistoryEntry} from 'lib/history/type';
+import TrackPlayManager from 'lib/trackplaymanager/TrackPlayManager';
 import DDFText from 'lib/view/DDFText';
 import DDFImage from 'lib/view/image/DDFImage';
 import colors from 'res/colors';
@@ -25,7 +27,10 @@ const HistoryListItem = (props: listItemType) => {
     return `${hourText}:${minuteText}`;
   }, []);
 
-  const file = useMemo(() => AudiobookProvider.getById(item.id), [item.id]);
+  const file: AudioFile | null = useMemo(
+    () => AudiobookProvider.getById(item.id),
+    [item.id],
+  );
 
   let content = (
     <DDFText>
@@ -34,7 +39,9 @@ const HistoryListItem = (props: listItemType) => {
   );
   if (file !== null) {
     content = (
-      <View style={styles.subContainer}>
+      <TouchableOpacity
+        style={styles.subContainer}
+        onPress={() => TrackPlayManager.playNew([file])}>
         <View style={styles.imageContainer}>
           <DDFImage source={file.image()} resizeMode="contain" />
         </View>
@@ -44,7 +51,7 @@ const HistoryListItem = (props: listItemType) => {
             item.date,
           )}`}</DDFText>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
   return <View style={styles.listItem}>{content}</View>;

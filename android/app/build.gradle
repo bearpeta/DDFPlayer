@@ -151,6 +151,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            keyAlias 'google-play-key'
+            keyPassword 'Crowd16567'
+            storeFile file('/Users/Alessandro/Code/android_keystore')
+            storePassword 'DelPiero16567'
+        }
     }
     buildTypes {
         debug {

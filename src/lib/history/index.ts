@@ -42,12 +42,14 @@ const addHistory = async (id: string): Promise<void> => {
   const fullDate = currentDateTime.split(' ')[0];
 
   if (currentHistory[fullDate] === undefined) {
-    currentHistory[fullDate] = [];
+    currentHistory = {[fullDate]: [], ...currentHistory};
   }
 
   currentHistory[fullDate].unshift({id, date: currentDateTime});
 
-  AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(currentHistory));
+  AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(currentHistory)).then(() =>
+    _loadCurrentHistory(),
+  );
 };
 
 export {addHistory, getHistory};
